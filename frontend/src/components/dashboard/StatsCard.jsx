@@ -3,7 +3,7 @@ import { cn } from "../../utils/cn";
 
 function StatsCard({ title, value, icon: Icon, trend, color = "default", loading = false }) {
   const colors = {
-    default:  { bg: "from-white/5 to-white/2",   border: "border-white/8",  icon: "text-[#888]" },
+    default:  { bg: "from-glow to-glow/30",   border: "border-border",  icon: "text-fg-dim" },
     emerald:  { bg: "from-emerald-500/8 to-emerald-500/3", border: "border-emerald-500/15", icon: "text-emerald-400" },
     blue:     { bg: "from-blue-500/8 to-blue-500/3",       border: "border-blue-500/15",    icon: "text-blue-400" },
     amber:    { bg: "from-amber-500/8 to-amber-500/3",     border: "border-amber-500/15",   icon: "text-amber-400" },
@@ -13,7 +13,7 @@ function StatsCard({ title, value, icon: Icon, trend, color = "default", loading
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-white/6 bg-white/2 p-5 h-[110px] animate-pulse">
+      <div className="rounded-xl border border-border bg-glow p-5 h-[110px] animate-pulse">
         <div className="skeleton h-3 w-20 mb-3 rounded" />
         <div className="skeleton h-7 w-14 rounded" />
       </div>
@@ -31,15 +31,15 @@ function StatsCard({ title, value, icon: Icon, trend, color = "default", loading
     >
       <div className="flex items-start justify-between">
         <div className="space-y-1">
-          <p className="text-[11px] font-medium text-[#666] uppercase tracking-wider">{title}</p>
-          <p className="text-2xl font-bold text-white leading-none">{value ?? "—"}</p>
+          <p className="text-[11px] font-medium text-fg-dim uppercase tracking-wider">{title}</p>
+          <p className="text-2xl font-bold text-fg leading-none">{value ?? "—"}</p>
           {trend && (
-            <p className="text-xs text-[#555]">{trend}</p>
+            <p className="text-xs text-fg-faint">{trend}</p>
           )}
         </div>
 
         {Icon && (
-          <div className={cn("w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center", c.icon)}>
+          <div className={cn("w-9 h-9 rounded-lg bg-glow flex items-center justify-center", c.icon)}>
             <Icon size={18} />
           </div>
         )}

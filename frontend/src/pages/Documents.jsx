@@ -30,11 +30,11 @@ function Documents() {
           className="flex items-start justify-between gap-4 flex-wrap"
         >
           <div>
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-xl font-bold text-fg flex items-center gap-2">
               <FolderOpen size={18} />
               Documents
             </h1>
-            <p className="text-sm text-[#666] mt-1">
+            <p className="text-sm text-fg-dim mt-1">
               {documents.length} document{documents.length !== 1 ? "s" : ""} in your knowledge base
             </p>
           </div>

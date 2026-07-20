@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-base: var(--bg-base);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-fg: var(--text-primary);
+  --color-fg-dim: var(--text-secondary);
+  --color-fg-faint: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-glow: var(--accent-glow);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+}
+
 /* ================================
    Design Tokens — Vercel-style
    ================================ */
@@ -9,8 +24,8 @@
   --bg-elevated:    #111111;
   --bg-overlay:     rgba(0, 0, 0, 0.85);
 
-  --border:         rgba(255,255,255,0.08);
-  --border-hover:   rgba(255,255,255,0.15);
+  --border:         rgba(255,255,255,0.12);
+  --border-hover:   rgba(255,255,255,0.22);
 
   --text-primary:   #ededed;
   --text-secondary: #888888;
@@ -18,7 +33,7 @@
 
   --accent:         #ffffff;
   --accent-hover:   #e0e0e0;
-  --accent-glow:    rgba(255, 255, 255, 0.1);
+  --accent-glow:    rgba(255, 255, 255, 0.15);
 
   --success:        #0070f3;
   --warning:        #f5a623;

@@ -34,12 +34,12 @@ function Chat() {
         </motion.div>
 
         {/* Chat area */}
-        <div className="flex flex-col flex-1 min-w-0 bg-[#0a0d14]">
+        <div className="flex flex-col flex-1 min-w-0 bg-base">
           {/* Chat toolbar */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/6 bg-[#0d1117]/60 backdrop-blur-sm shrink-0">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-surface/60 backdrop-blur-sm shrink-0">
             <button
               onClick={() => setShowHistory((v) => !v)}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-white/6 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-fg-faint hover:text-fg hover:bg-glow transition-colors"
               aria-label="Toggle history panel"
             >
               <PanelLeft size={15} />

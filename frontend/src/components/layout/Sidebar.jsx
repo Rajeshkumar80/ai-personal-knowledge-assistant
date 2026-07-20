@@ -27,13 +27,13 @@ function Sidebar() {
     <motion.aside
       animate={{ width: collapsed ? 64 : 240 }}
       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-      className="relative flex flex-col h-full bg-black border-r border-white/8 shrink-0 overflow-hidden"
+      className="relative flex flex-col h-full bg-base border-r border-border shrink-0 overflow-hidden"
     >
       {/* Logo */}
-      <div className="flex items-center h-14 px-4 border-b border-white/8 shrink-0">
+      <div className="flex items-center h-14 px-4 border-b border-border shrink-0">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-7 h-7 rounded-lg bg-white flex items-center justify-center shrink-0">
-            <Brain size={14} className="text-black" />
+          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center shrink-0">
+            <Brain size={14} className="text-base" />
           </div>
           <AnimatePresence>
             {!collapsed && (
@@ -44,7 +44,7 @@ function Sidebar() {
                 transition={{ duration: 0.15 }}
                 className="min-w-0"
               >
-                <p className="text-sm font-semibold text-white truncate leading-tight">KnowledgeAI</p>
+                <p className="text-sm font-semibold text-fg truncate leading-tight">KnowledgeAI</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -65,15 +65,15 @@ function Sidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-150 group",
                 isActive
-                  ? "bg-white/10 text-white"
-                  : "text-[#888] hover:text-white hover:bg-white/5"
+                  ? "bg-glow text-fg"
+                  : "text-fg-dim hover:text-fg hover:bg-glow/60"
               )}
             >
               <Icon
                 size={16}
                 className={cn(
                   "shrink-0 transition-colors",
-                  isActive ? "text-white" : "text-[#555] group-hover:text-[#aaa]"
+                  isActive ? "text-fg" : "text-fg-faint group-hover:text-fg-dim"
                 )}
               />
               <AnimatePresence>
@@ -97,7 +97,7 @@ function Sidebar() {
       {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed((v) => !v)}
-        className="absolute -right-3 top-[68px] w-6 h-6 rounded-full bg-[#111] border border-white/10 flex items-center justify-center text-[#666] hover:text-white hover:border-white/20 transition-all z-10"
+        className="absolute -right-3 top-[68px] w-6 h-6 rounded-full bg-elevated border border-border flex items-center justify-center text-fg-dim hover:text-fg hover:border-border-hover transition-all z-10"
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}

@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 
 function DashboardLayout({ children }) {
   return (
-    <div className="flex h-screen overflow-hidden bg-black">
+    <div className="flex h-screen overflow-hidden bg-base">
       <Sidebar />
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">

@@ -51,8 +51,8 @@ function UploadBox({ onFiles }) {
         "relative rounded-xl border-2 border-dashed transition-all duration-150 cursor-pointer",
         "flex flex-col items-center justify-center gap-4 py-10 px-6 text-center",
         dragging
-          ? "border-white/40 bg-white/5 scale-[1.01]"
-          : "border-white/10 bg-white/2 hover:border-white/20 hover:bg-white/3"
+          ? "border-border-hover bg-glow/60 scale-[1.01]"
+          : "border-border bg-glow hover:border-border-hover hover:bg-glow/80"
       )}
     >
       <input
@@ -72,27 +72,27 @@ function UploadBox({ onFiles }) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center"
+            className="w-12 h-12 rounded-xl bg-glow border border-border-hover flex items-center justify-center"
           >
-            <Upload size={20} className="text-white" />
+            <Upload size={20} className="text-fg" />
           </motion.div>
         ) : (
           <motion.div
             key="idle"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center"
+            className="w-12 h-12 rounded-xl bg-glow border border-border flex items-center justify-center"
           >
-            <Upload size={20} className="text-[#555]" />
+            <Upload size={20} className="text-fg-faint" />
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="space-y-1.5">
-        <p className="text-sm font-semibold text-white">
+        <p className="text-sm font-semibold text-fg">
           {dragging ? "Drop files here" : "Drag & drop files or click to browse"}
         </p>
-        <p className="text-xs text-[#555]">
+        <p className="text-xs text-fg-faint">
           Supports PDF, DOCX, TXT, PNG, JPG — up to 20 MB each
         </p>
       </div>
@@ -101,7 +101,7 @@ function UploadBox({ onFiles }) {
         {Object.values(ACCEPTED_TYPES).map((label) => (
           <span
             key={label}
-            className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/5 border border-white/8 text-[#666]"
+            className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-glow border border-border text-fg-dim"
           >
             {label}
           </span>

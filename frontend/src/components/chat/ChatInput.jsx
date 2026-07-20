@@ -55,7 +55,7 @@ function ChatInput({ onSend, loading, disabled }) {
             <button
               key={s}
               onClick={() => pickSuggestion(s)}
-              className="text-xs px-3 py-1.5 rounded-full border border-white/8 bg-white/2 text-[#666] hover:text-white hover:border-white/15 hover:bg-white/5 transition-all"
+              className="text-xs px-3 py-1.5 rounded-full border border-border bg-glow text-fg-dim hover:text-fg hover:border-border-hover hover:bg-glow/80 transition-all"
             >
               {s}
             </button>
@@ -63,7 +63,7 @@ function ChatInput({ onSend, loading, disabled }) {
         </div>
       )}
 
-      <div className="flex items-end gap-3 rounded-xl border border-white/8 bg-white/3 backdrop-blur-sm px-4 py-3 focus-within:border-white/20 focus-within:bg-white/5 transition-all duration-150">
+      <div className="flex items-end gap-3 rounded-xl border border-border bg-glow backdrop-blur-sm px-4 py-3 focus-within:border-border-hover focus-within:bg-glow/80 transition-all duration-150">
         <textarea
           ref={textareaRef}
           value={value}
@@ -74,7 +74,7 @@ function ChatInput({ onSend, loading, disabled }) {
           disabled={disabled || loading}
           rows={1}
           className={cn(
-            "flex-1 resize-none bg-transparent text-sm text-white placeholder:text-[#555]",
+            "flex-1 resize-none bg-transparent text-sm text-fg placeholder:text-fg-faint",
             "focus:outline-none leading-relaxed",
             "disabled:opacity-40 disabled:cursor-not-allowed",
             "max-h-[180px] overflow-y-auto"
@@ -90,10 +90,10 @@ function ChatInput({ onSend, loading, disabled }) {
           className={cn(
             "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-150",
             loading
-              ? "bg-[#ee0000] hover:bg-[#cc0000] text-white cursor-pointer"
+              ? "bg-danger hover:opacity-90 text-white cursor-pointer"
               : canSend
-                ? "bg-white hover:bg-[#e0e0e0] text-black cursor-pointer"
-                : "bg-white/5 text-[#444] cursor-not-allowed"
+                ? "bg-accent hover:opacity-90 text-base cursor-pointer"
+                : "bg-glow text-fg-faint cursor-not-allowed"
           )}
         >
           {loading
@@ -103,7 +103,7 @@ function ChatInput({ onSend, loading, disabled }) {
         </button>
       </div>
 
-      <p className="text-[10px] text-[#444] text-center mt-2">
+      <p className="text-[10px] text-fg-faint text-center mt-2">
         AI answers are based on your uploaded documents only.
       </p>
     </div>

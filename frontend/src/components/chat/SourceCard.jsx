@@ -8,17 +8,17 @@ function SourceCard({ sourceFile, pageNumber, className }) {
   return (
     <div
       className={cn(
-        "mt-3 flex items-start gap-2.5 rounded-lg border border-white/8 bg-white/3 px-3 py-2.5",
+        "mt-3 flex items-start gap-2.5 rounded-lg border border-border bg-glow px-3 py-2.5",
         className
       )}
     >
-      <BookOpen size={13} className="text-[#666] mt-0.5 shrink-0" />
+      <BookOpen size={13} className="text-fg-dim mt-0.5 shrink-0" />
       <div className="min-w-0">
-        <p className="text-xs font-medium text-[#888] mb-0.5">Source</p>
+        <p className="text-xs font-medium text-fg-dim mb-0.5">Source</p>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1.5">
-            <FileText size={11} className="text-[#555]" />
-            <span className="text-xs text-[#aaa] truncate max-w-[240px]">{sourceFile}</span>
+            <FileText size={11} className="text-fg-faint" />
+            <span className="text-xs text-fg-dim truncate max-w-[240px]">{sourceFile}</span>
           </div>
           {pageNumber > 0 && (
             <Badge variant="default" className="text-[10px] py-0">

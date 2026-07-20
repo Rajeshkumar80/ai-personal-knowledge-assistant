@@ -12,11 +12,11 @@ function ActivityItem({ icon: Icon, color, title, subtitle, time }) {
         <Icon size={13} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-white font-medium truncate">{title}</p>
-        {subtitle && <p className="text-xs text-[#555] truncate mt-0.5">{subtitle}</p>}
+        <p className="text-sm text-fg font-medium truncate">{title}</p>
+        {subtitle && <p className="text-xs text-fg-faint truncate mt-0.5">{subtitle}</p>}
       </div>
       {time && (
-        <span className="text-xs text-[#444] shrink-0">{time}</span>
+        <span className="text-xs text-fg-faint shrink-0">{time}</span>
       )}
     </div>
   );
@@ -48,10 +48,10 @@ function RecentActivity() {
     .slice(0, 6);
 
   return (
-    <div className="rounded-xl border border-white/6 bg-white/2 p-5">
+    <div className="rounded-xl border border-border bg-glow p-5">
       <div className="flex items-center gap-2 mb-3">
-        <Clock size={15} className="text-[#555]" />
-        <h2 className="text-sm font-semibold text-white">Recent Activity</h2>
+        <Clock size={15} className="text-fg-faint" />
+        <h2 className="text-sm font-semibold text-fg">Recent Activity</h2>
       </div>
 
       {loading ? (
@@ -74,14 +74,14 @@ function RecentActivity() {
           className="py-8"
         />
       ) : (
-        <div className="divide-y divide-white/5">
+        <div className="divide-y divide-theme-border">
           {activities.map((a, i) => (
             <ActivityItem
               key={i}
               icon={a.type === "upload" ? Upload : MessageSquare}
               color={
                 a.type === "upload"
-                  ? "bg-white/5 text-[#888]"
+                  ? "bg-glow text-fg-dim"
                   : "bg-emerald-500/10 text-emerald-400"
               }
               title={a.title}

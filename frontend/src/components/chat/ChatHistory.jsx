@@ -10,17 +10,17 @@ function ChatHistory() {
   const { history, historyLoading, clearAllHistory } = useChat();
 
   return (
-    <aside className="w-64 shrink-0 border-r border-white/6 bg-[#0d1117] flex flex-col">
+    <aside className="w-64 shrink-0 border-r border-border bg-surface flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/6">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <Clock size={13} className="text-slate-500" />
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">History</span>
+          <Clock size={13} className="text-fg-faint" />
+          <span className="text-xs font-semibold text-fg-dim uppercase tracking-wider">History</span>
         </div>
         {history.length > 0 && (
           <button
             onClick={clearAllHistory}
-            className="w-6 h-6 rounded-lg flex items-center justify-center text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            className="w-6 h-6 rounded-lg flex items-center justify-center text-fg-faint hover:text-danger hover:bg-danger/10 transition-colors"
             title="Clear history"
             aria-label="Clear chat history"
           >
@@ -42,19 +42,19 @@ function ChatHistory() {
           </div>
         ) : history.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-10 px-4 text-center">
-            <MessageSquare size={20} className="text-slate-700" />
-            <p className="text-xs text-slate-600">No history yet</p>
+            <MessageSquare size={20} className="text-fg-faint" />
+            <p className="text-xs text-fg-dim">No history yet</p>
           </div>
         ) : (
           history.map((item) => (
             <div
               key={item.id}
-              className="px-3 py-2.5 rounded-xl hover:bg-white/5 cursor-pointer transition-colors group"
+              className="px-3 py-2.5 rounded-xl hover:bg-glow cursor-pointer transition-colors group"
             >
-              <p className="text-xs font-medium text-slate-300 leading-snug">
+              <p className="text-xs font-medium text-fg leading-snug">
                 {truncate(item.question, 52)}
               </p>
-              <p className="text-[10px] text-slate-600 mt-1">
+              <p className="text-[10px] text-fg-faint mt-1">
                 {timeAgo(item.createdAt)}
               </p>
             </div>

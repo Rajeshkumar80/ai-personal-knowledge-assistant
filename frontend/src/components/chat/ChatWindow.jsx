@@ -14,13 +14,13 @@ const WELCOME_SUGGESTIONS = [
 function WelcomeScreen({ onSuggest }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
-      <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center mb-5">
-        <Brain size={24} className="text-black" />
+      <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center mb-5">
+        <Brain size={24} className="text-base" />
       </div>
-      <h2 className="text-xl font-semibold text-white mb-2">
+      <h2 className="text-xl font-semibold text-fg mb-2">
         Your AI Knowledge Assistant
       </h2>
-      <p className="text-sm text-[#666] max-w-sm mb-8">
+      <p className="text-sm text-fg-dim max-w-sm mb-8">
         Ask questions about your uploaded documents. The AI will find relevant
         information and answer with citations.
       </p>
@@ -29,9 +29,9 @@ function WelcomeScreen({ onSuggest }) {
           <button
             key={s}
             onClick={() => onSuggest(s)}
-            className="text-sm px-4 py-3 rounded-lg border border-white/8 bg-white/2 text-[#aaa] hover:bg-white/5 hover:border-white/12 hover:text-white transition-all text-left flex items-center gap-3"
+            className="text-sm px-4 py-3 rounded-lg border border-border bg-glow text-fg-dim hover:bg-glow/80 hover:border-border-hover hover:text-fg transition-all text-left flex items-center gap-3"
           >
-            <MessageSquare size={14} className="text-[#555] shrink-0" />
+            <MessageSquare size={14} className="text-fg-faint shrink-0" />
             {s}
           </button>
         ))}

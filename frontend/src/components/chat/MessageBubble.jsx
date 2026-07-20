@@ -35,13 +35,13 @@ function MessageBubble({ message }) {
         className={cn(
           "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mb-1",
           isUser
-            ? "bg-[#333] order-last"
-            : "bg-white"
+            ? "bg-elevated order-last"
+            : "bg-accent"
         )}
       >
         {isUser
-          ? <User size={13} className="text-[#aaa]" />
-          : <Brain size={13} className="text-black" />
+          ? <User size={13} className="text-fg-dim" />
+          : <Brain size={13} className="text-base" />
         }
       </div>
 
@@ -51,10 +51,10 @@ function MessageBubble({ message }) {
           className={cn(
             "relative rounded-2xl px-4 py-3 text-sm leading-relaxed",
             isUser
-              ? "bg-white text-black rounded-br-sm"
+              ? "bg-accent text-base rounded-br-sm"
               : isError
-                ? "bg-[#ee0000]/10 border border-[#ee0000]/20 text-[#ff6666] rounded-bl-sm"
-                : "bg-white/5 border border-white/8 text-[#ededed] rounded-bl-sm"
+                ? "bg-danger/10 border border-danger/20 text-danger rounded-bl-sm"
+                : "bg-glow border border-border text-fg rounded-bl-sm"
           )}
         >
           {isUser ? (
@@ -65,7 +65,7 @@ function MessageBubble({ message }) {
               <p>{content}</p>
             </div>
           ) : (
-            <div className="prose max-w-none text-[#ededed] [&_code]:text-[#aaa] [&_pre]:bg-[#111] [&_pre]:border [&_pre]:border-white/8 [&_pre]:rounded-lg [&_pre]:p-3 [&_a]:text-white">
+            <div className="prose max-w-none text-fg [&_code]:text-fg-dim [&_pre]:bg-elevated [&_pre]:border [&_pre]:border-border [&_pre]:rounded-lg [&_pre]:p-3 [&_a]:text-fg">
               <ReactMarkdown>{content}</ReactMarkdown>
             </div>
           )}
@@ -74,13 +74,13 @@ function MessageBubble({ message }) {
             <button
               onClick={handleCopy}
               className={cn(
-                "absolute -top-2 -right-2 w-6 h-6 rounded-md bg-[#111] border border-white/8 flex items-center justify-center",
-                "text-[#666] hover:text-white hover:border-white/15 transition-all",
+                "absolute -top-2 -right-2 w-6 h-6 rounded-md bg-elevated border border-border flex items-center justify-center",
+                "text-fg-dim hover:text-fg hover:border-border-hover transition-all",
                 "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
               )}
               aria-label="Copy response"
             >
-              {copied ? <Check size={11} className="text-[#0070f3]" /> : <Copy size={11} />}
+              {copied ? <Check size={11} className="text-success" /> : <Copy size={11} />}
             </button>
           )}
         </div>
@@ -89,7 +89,7 @@ function MessageBubble({ message }) {
           <SourceCard sourceFile={sourceFile} pageNumber={pageNumber} />
         )}
 
-        <span className="text-[10px] text-[#444] px-1">
+        <span className="text-[10px] text-fg-faint px-1">
           {timeAgo(timestamp)}
         </span>
       </div>

@@ -14,14 +14,14 @@ function ConfirmDialog({
   return (
     <Modal open={open} onClose={onClose} size="sm">
       <div className="flex flex-col items-center text-center gap-4 pb-2">
-        <div className="w-11 h-11 rounded-xl bg-[#ee0000]/10 border border-[#ee0000]/20 flex items-center justify-center text-[#ee0000]">
+        <div className="w-11 h-11 rounded-xl bg-danger/10 border border-danger/20 flex items-center justify-center text-danger">
           <AlertTriangle size={20} />
         </div>
 
         <div className="space-y-1.5">
-          <h3 className="text-sm font-semibold text-white">{title}</h3>
+          <h3 className="text-sm font-semibold text-fg">{title}</h3>
           {description && (
-            <p className="text-sm text-[#666]">{description}</p>
+            <p className="text-sm text-fg-dim">{description}</p>
           )}
         </div>
 

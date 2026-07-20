@@ -32,10 +32,10 @@ function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
         >
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-fg">
             {greeting}
           </h1>
-          <p className="text-sm text-[#666] mt-1">
+          <p className="text-sm text-fg-dim mt-1">
             Here's an overview of your AI knowledge workspace.
           </p>
         </motion.div>

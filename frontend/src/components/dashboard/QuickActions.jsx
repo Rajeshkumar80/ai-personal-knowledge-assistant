@@ -33,8 +33,8 @@ function QuickActions() {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl border border-white/6 bg-white/2 p-5">
-      <h2 className="text-sm font-semibold text-white mb-3">Quick Actions</h2>
+    <div className="rounded-xl border border-border bg-glow p-5">
+      <h2 className="text-sm font-semibold text-fg mb-3">Quick Actions</h2>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
         {actions.map((item, i) => {
@@ -48,14 +48,14 @@ function QuickActions() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               onClick={() => navigate(item.path)}
-              className="flex flex-col items-start gap-2.5 rounded-lg border border-white/6 bg-white/2 hover:border-white/12 hover:bg-white/4 p-3.5 text-left transition-all duration-150 cursor-pointer"
+              className="flex flex-col items-start gap-2.5 rounded-lg border border-border bg-glow hover:border-border-hover hover:bg-glow/80 p-3.5 text-left transition-all duration-150 cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-[#888]">
+              <div className="w-8 h-8 rounded-lg bg-glow flex items-center justify-center text-fg-dim">
                 <Icon size={16} />
               </div>
               <div>
-                <p className="text-sm font-medium text-white">{item.title}</p>
-                <p className="text-xs text-[#555] mt-0.5 leading-snug">{item.description}</p>
+                <p className="text-sm font-medium text-fg">{item.title}</p>
+                <p className="text-xs text-fg-faint mt-0.5 leading-snug">{item.description}</p>
               </div>
             </motion.button>
           );

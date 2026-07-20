@@ -5,7 +5,7 @@ export function Spinner({ size = "md", className }) {
   return (
     <span
       className={cn(
-        "inline-block border-2 border-white/15 border-t-white rounded-full animate-spin",
+        "inline-block border-2 border-border border-t-fg rounded-full animate-spin",
         sizes[size],
         className
       )}
@@ -21,7 +21,7 @@ export function Skeleton({ className }) {
 
 export function PageLoader({ label = "Loading…" }) {
   return (
-    <div className="flex flex-col items-center justify-center flex-1 gap-4 text-[#555] min-h-[300px]">
+    <div className="flex flex-col items-center justify-center flex-1 gap-4 text-fg-faint min-h-[300px]">
       <Spinner size="xl" />
       <p className="text-sm">{label}</p>
     </div>

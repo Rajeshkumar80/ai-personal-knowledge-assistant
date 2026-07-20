@@ -20,10 +20,10 @@ import toast from "../utils/toast";
 
 function SettingRow({ label, description, children }) {
   return (
-    <div className="flex items-center justify-between gap-6 py-3.5 border-b border-white/6 last:border-0">
+    <div className="flex items-center justify-between gap-6 py-3.5 border-b border-border last:border-0">
       <div className="min-w-0">
-        <p className="text-sm font-medium text-white">{label}</p>
-        {description && <p className="text-xs text-[#666] mt-0.5">{description}</p>}
+        <p className="text-sm font-medium text-fg">{label}</p>
+        {description && <p className="text-xs text-fg-dim mt-0.5">{description}</p>}
       </div>
       <div className="shrink-0">{children}</div>
     </div>
@@ -33,10 +33,10 @@ function SettingRow({ label, description, children }) {
 function SectionHeader({ icon: Icon, title }) {
   return (
     <div className="flex items-center gap-2.5 mb-3">
-      <div className="w-7 h-7 rounded-lg bg-white/8 flex items-center justify-center text-white">
+      <div className="w-7 h-7 rounded-lg bg-glow flex items-center justify-center text-fg">
         <Icon size={14} />
       </div>
-      <h2 className="text-sm font-semibold text-white">{title}</h2>
+      <h2 className="text-sm font-semibold text-fg">{title}</h2>
     </div>
   );
 }
@@ -63,11 +63,11 @@ function Settings() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl font-bold text-fg flex items-center gap-2">
             <SettingsIcon size={18} />
             Settings
           </h1>
-          <p className="text-sm text-[#666] mt-1">
+          <p className="text-sm text-fg-dim mt-1">
             Manage your preferences and AI configuration.
           </p>
         </motion.div>
@@ -82,13 +82,13 @@ function Settings() {
                 label="Theme"
                 description="Choose between dark and light interface"
               >
-                <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/4 p-0.5">
+                <div className="flex items-center gap-1 rounded-lg border border-border bg-glow p-0.5">
                   <button
                     onClick={() => !isDark && toggleTheme()}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                       isDark
-                        ? "bg-white text-black"
-                        : "text-[#666] hover:text-white"
+                        ? "bg-fg text-base"
+                        : "text-fg-dim hover:text-fg"
                     }`}
                   >
                     <Moon size={12} /> Dark
@@ -97,8 +97,8 @@ function Settings() {
                     onClick={() => isDark && toggleTheme()}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                       !isDark
-                        ? "bg-black text-white"
-                        : "text-[#666] hover:text-white"
+                        ? "bg-base text-fg"
+                        : "text-fg-dim hover:text-fg"
                     }`}
                   >
                     <Sun size={12} /> Light
@@ -163,7 +163,7 @@ function Settings() {
 
           {/* Danger Zone */}
           <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <Card className="p-5 border-[#ee0000]/20">
+            <Card className="p-5 border-danger/20">
               <SectionHeader icon={Trash2} title="Danger Zone" />
               <SettingRow
                 label="Clear Chat History"
@@ -185,22 +185,22 @@ function Settings() {
           <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
             <Card className="p-5">
               <SectionHeader icon={Database} title="About" />
-              <div className="space-y-2 text-xs text-[#666]">
+              <div className="space-y-2 text-xs text-fg-dim">
                 <div className="flex justify-between">
                   <span>Stack</span>
-                  <span className="text-[#888]">Spring Boot 3.5 · React 19 · Tailwind v4</span>
+                  <span className="text-fg-dim">Spring Boot 3.5 · React 19 · Tailwind v4</span>
                 </div>
                 <div className="flex justify-between">
                   <span>AI Engine</span>
-                  <span className="text-[#888]">Ollama · Spring AI 1.0</span>
+                  <span className="text-fg-dim">Ollama · Spring AI 1.0</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Vector Store</span>
-                  <span className="text-[#888]">ChromaDB</span>
+                  <span className="text-fg-dim">ChromaDB</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Version</span>
-                  <span className="text-[#888]">1.0.0</span>
+                  <span className="text-fg-dim">1.0.0</span>
                 </div>
               </div>
             </Card>

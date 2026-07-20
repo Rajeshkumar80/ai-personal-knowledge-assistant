@@ -15,15 +15,15 @@ function EmptyState({
       )}
     >
       {Icon && (
-        <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-[#444] mb-1">
+        <div className="w-14 h-14 rounded-xl bg-glow border border-border flex items-center justify-center text-fg-faint mb-1">
           <Icon size={24} />
         </div>
       )}
 
       <div className="space-y-1.5">
-        <h3 className="text-sm font-semibold text-white">{title}</h3>
+        <h3 className="text-sm font-semibold text-fg">{title}</h3>
         {description && (
-          <p className="text-sm text-[#555] max-w-sm">{description}</p>
+          <p className="text-sm text-fg-faint max-w-sm">{description}</p>
         )}
       </div>
 

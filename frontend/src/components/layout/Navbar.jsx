@@ -12,8 +12,8 @@ function Navbar() {
   const pageTitle = routeTitles[location.pathname] ?? "KnowledgeAI";
 
   return (
-    <header className="h-14 flex items-center px-6 border-b border-white/8 bg-black/80 backdrop-blur-xl shrink-0">
-      <h1 className="text-sm font-semibold text-white">{pageTitle}</h1>
+    <header className="h-14 flex items-center px-6 border-b border-border bg-base/80 backdrop-blur-xl shrink-0">
+      <h1 className="text-sm font-semibold text-fg">{pageTitle}</h1>
     </header>
   );
 }

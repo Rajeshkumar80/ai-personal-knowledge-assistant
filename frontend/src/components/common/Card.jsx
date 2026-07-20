@@ -4,8 +4,8 @@ function Card({ children, className, hover = false, ...props }) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-white/8 bg-white/3",
-        hover && "transition-all duration-150 hover:border-white/12",
+        "rounded-xl border border-border bg-glow",
+        hover && "transition-all duration-150 hover:border-border-hover",
         className
       )}
       {...props}
