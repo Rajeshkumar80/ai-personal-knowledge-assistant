@@ -20,50 +20,42 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
-    /**
-     * Upload a document and process it through the RAG pipeline.
-     */
+    @SuppressWarnings("unchecked")
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse<DocumentDto>> upload(
-            @RequestParam("file") MultipartFile file) throws Exception {
+            @RequestParam("file") MultipartFile file) {
 
-        DocumentDto dto = documentService.uploadDocument(file);
-
-        return ResponseEntity.ok(
-                ApiResponse.created("Document uploaded and processed successfully.", dto)
-        );
+        try {
+            DocumentDto dto = documentService.uploadDocument(file);
+            return ResponseEntity.ok(
+                    ApiResponse.created("Document uploaded and processed successfully.", dto)
+            );
+        } catch (IllegalArgumentException e) {
+            log.warn("Upload rejected: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body((ApiResponse<DocumentDto>) (ApiResponse<?>) ApiResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            log.error("Upload failed for {}: {}", file.getOriginalFilename(), e.getMessage(), e);
+            return ResponseEntity.internalServerError()
+                    .body((ApiResponse<DocumentDto>) (ApiResponse<?>) ApiResponse.error("Upload failed: " + e.getMessage()));
+        }
     }
 
-    /**
-     * Get all active (non-deleted) documents.
-     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<DocumentDto>>> getDocuments() {
-
         List<DocumentDto> docs = documentService.getAllDocuments();
-
         return ResponseEntity.ok(ApiResponse.ok(docs));
     }
 
-    /**
-     * Soft-delete a document by ID.
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteDocument(@PathVariable Long id) {
-
         documentService.deleteDocument(id);
-
         return ResponseEntity.ok(ApiResponse.message("Document deleted successfully."));
     }
 
-    /**
-     * Dashboard statistics: document count, chat count, chunk count, storage.
-     */
     @GetMapping("/stats")
     public ResponseEntity<ApiResponse<DashboardStatsDto>> getStats() {
-
         DashboardStatsDto stats = documentService.getStats();
-
         return ResponseEntity.ok(ApiResponse.ok(stats));
     }
 }

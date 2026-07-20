@@ -32,6 +32,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(
             IllegalArgumentException ex) {
 
+        log.warn("Bad request: {}", ex.getMessage());
         return ResponseEntity.badRequest()
                 .body(ApiResponse.error(ex.getMessage()));
     }
@@ -52,12 +53,19 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("File size exceeds maximum limit of 20MB."));
     }
 
+    @ExceptionHandler(OutOfMemoryError.class)
+    public ResponseEntity<ApiResponse<Void>> handleOutOfMemory(OutOfMemoryError ex) {
+        log.error("OutOfMemoryError: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error("File too large to process. Try a smaller file."));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGeneral(Exception ex) {
 
         log.error("Unhandled exception: {}", ex.getMessage(), ex);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error("An unexpected error occurred. Please try again."));
+                .body(ApiResponse.error("An unexpected error occurred: " + ex.getMessage()));
     }
 }

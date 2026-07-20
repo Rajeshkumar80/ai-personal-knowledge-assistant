@@ -1,15 +1,11 @@
 import { cn } from "../../utils/cn";
 
-/**
- * Surface card with optional hover lift and glass effect.
- */
-function Card({ children, className, hover = false, glass = false, ...props }) {
+function Card({ children, className, hover = false, ...props }) {
   return (
     <div
       className={cn(
-        "rounded-2xl border border-white/7 bg-white/4 backdrop-blur-sm",
-        hover && "transition-all duration-200 hover:-translate-y-0.5 hover:border-white/12 hover:shadow-xl hover:shadow-black/20",
-        glass && "bg-white/4 backdrop-blur-xl",
+        "rounded-xl border border-white/8 bg-white/3",
+        hover && "transition-all duration-150 hover:border-white/12",
         className
       )}
       {...props}
@@ -21,7 +17,7 @@ function Card({ children, className, hover = false, glass = false, ...props }) {
 
 Card.Header = function CardHeader({ children, className }) {
   return (
-    <div className={cn("px-6 pt-6 pb-4", className)}>
+    <div className={cn("px-5 pt-5 pb-3", className)}>
       {children}
     </div>
   );
@@ -29,7 +25,7 @@ Card.Header = function CardHeader({ children, className }) {
 
 Card.Body = function CardBody({ children, className }) {
   return (
-    <div className={cn("px-6 pb-6", className)}>
+    <div className={cn("px-5 pb-5", className)}>
       {children}
     </div>
   );

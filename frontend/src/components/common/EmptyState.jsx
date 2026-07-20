@@ -1,8 +1,5 @@
 import { cn } from "../../utils/cn";
 
-/**
- * Empty state illustration with icon, title, description, and optional action.
- */
 function EmptyState({
   icon: Icon,
   title,
@@ -13,20 +10,20 @@ function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center py-16 px-8 gap-4",
+        "flex flex-col items-center justify-center text-center py-14 px-8 gap-4",
         className
       )}
     >
       {Icon && (
-        <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/8 flex items-center justify-center text-slate-500 mb-2">
-          <Icon size={28} />
+        <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-[#444] mb-1">
+          <Icon size={24} />
         </div>
       )}
 
       <div className="space-y-1.5">
-        <h3 className="text-base font-semibold text-slate-200">{title}</h3>
+        <h3 className="text-sm font-semibold text-white">{title}</h3>
         {description && (
-          <p className="text-sm text-slate-500 max-w-sm">{description}</p>
+          <p className="text-sm text-[#555] max-w-sm">{description}</p>
         )}
       </div>
 

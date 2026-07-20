@@ -1,43 +1,26 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { PageLoader } from "../components/common/Loader";
 
-import Dashboard from "../pages/Dashboard";
-
-function ComingSoon({ title }) {
-  return (
-    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center text-3xl">
-      {title} (Coming Soon)
-    </div>
-  );
-}
+// Lazy-load pages for code splitting
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Chat      = lazy(() => import("../pages/Chat"));
+const Documents = lazy(() => import("../pages/Documents"));
+const Settings  = lazy(() => import("../pages/Settings"));
+const NotFound  = lazy(() => import("../pages/NotFound"));
 
 function AppRoutes() {
   return (
-    <Routes>
-
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-
-      <Route path="/dashboard" element={<Dashboard />} />
-
-      <Route
-        path="/chat"
-        element={<ComingSoon title="AI Chat" />}
-      />
-
-      <Route
-        path="/documents"
-        element={<ComingSoon title="Documents" />}
-      />
-
-      <Route
-        path="/settings"
-        element={<ComingSoon title="Settings" />}
-      />
-      <Route
-  path="/documents"
-  element={<ComingSoon title="Documents" />}
-/>
-
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/"           element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard"  element={<Dashboard />} />
+        <Route path="/chat"       element={<Chat />} />
+        <Route path="/documents"  element={<Documents />} />
+        <Route path="/settings"   element={<Settings />} />
+        <Route path="*"           element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 

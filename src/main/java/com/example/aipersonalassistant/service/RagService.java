@@ -22,12 +22,21 @@ public class RagService {
 
     public ChatResponse ask(ChatRequest request) {
 
+        String question = request.getQuestion();
+        log.info("RAG request: {}", question);
+
         // 1. Semantic similarity search in ChromaDB
-        List<Document> documents = chromaService.similaritySearch(request.getQuestion());
+        List<Document> documents = chromaService.similaritySearch(question);
 
         StringBuilder context = new StringBuilder();
         String sourceFile = null;
         Integer pageNumber = null;
+
+        if (documents.isEmpty()) {
+            log.warn("No similar documents found for question: {}", question);
+        } else {
+            log.info("Found {} similar document chunks", documents.size());
+        }
 
         for (Document document : documents) {
             context.append(document.getText()).append("\n\n");
@@ -41,35 +50,47 @@ public class RagService {
                     pageNumber = Integer.parseInt(
                             document.getMetadata().get("pageNumber").toString()
                     );
-                } catch (NumberFormatException ignored) {
-                    // metadata may not always be an integer
-                }
+                } catch (NumberFormatException ignored) {}
             }
         }
 
+        String contextStr = context.toString().trim();
+
         // 2. Build RAG prompt
-        String prompt = """
-                You are a helpful AI assistant that answers questions based on uploaded documents.
+        String prompt;
+        if (contextStr.isEmpty()) {
+            prompt = """
+                    You are a helpful AI assistant.
 
-                Rules:
-                - Answer ONLY from the provided context below.
-                - Be concise, clear, and accurate.
-                - Format your response using Markdown when appropriate (lists, headings, code blocks).
-                - If the answer is not present in the context, reply exactly:
-                  "I couldn't find the answer in the uploaded documents."
+                    No relevant documents were found for this question.
+                    Please let the user know that you couldn't find relevant information in the uploaded documents, and suggest they upload documents first.
 
-                Context:
-                %s
+                    Question: %s
+                    """.formatted(question);
+        } else {
+            prompt = """
+                    You are a helpful AI assistant that answers questions based on uploaded documents.
 
-                Question: %s
-                """.formatted(context.toString().trim(), request.getQuestion());
+                    Rules:
+                    - Answer ONLY from the provided context below.
+                    - Be concise, clear, and accurate.
+                    - Format your response using Markdown when appropriate (lists, headings, code blocks).
+                    - If the answer is not present in the context, reply exactly:
+                      "I couldn't find the answer in the uploaded documents."
+
+                    Context:
+                    %s
+
+                    Question: %s
+                    """.formatted(contextStr, question);
+        }
 
         // 3. Call local LLM
         String answer = ollamaService.askLLM(prompt);
 
         // 4. Persist chat history
         ChatHistory history = ChatHistory.builder()
-                .question(request.getQuestion())
+                .question(question)
                 .answer(answer)
                 .sourceFile(sourceFile)
                 .pageNumber(pageNumber)

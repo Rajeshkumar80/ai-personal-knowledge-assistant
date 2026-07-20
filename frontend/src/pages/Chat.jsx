@@ -11,7 +11,7 @@ import { useChat } from "../context/ChatContext";
 function Chat() {
   const { sendMessage, clearMessages, loading } = useChat();
   const [showHistory, setShowHistory] = useState(true);
-  const [inputValue, setInputValue] = useState("");
+
 
   const handleSuggest = useCallback((text) => {
     sendMessage(text);

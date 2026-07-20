@@ -21,20 +21,20 @@ function Documents() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-5">
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -6 }}
+          initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-start justify-between gap-4 flex-wrap"
         >
           <div>
-            <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
-              <FolderOpen size={22} className="text-indigo-400" />
+            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+              <FolderOpen size={18} />
               Documents
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-[#666] mt-1">
               {documents.length} document{documents.length !== 1 ? "s" : ""} in your knowledge base
             </p>
           </div>
@@ -61,7 +61,7 @@ function Documents() {
 
         {/* Search */}
         <motion.div
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
         >
@@ -76,7 +76,7 @@ function Documents() {
 
         {/* File grid */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
@@ -90,7 +90,6 @@ function Documents() {
 
       </div>
 
-      {/* Upload modal */}
       <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />
     </DashboardLayout>
   );

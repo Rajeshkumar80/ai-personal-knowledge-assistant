@@ -18,78 +18,30 @@ public class ChromaService {
         this.vectorStore = vectorStore;
     }
 
-    /**
-     * Store document chunk inside ChromaDB
-     */
-    public void storeEmbedding(
-            String chunk,
-            float[] embedding,
-            Map<String, Object> metadata
-    ) {
+    public void storeChunks(List<Document> documents) {
+        vectorStore.add(documents);
+    }
 
+    public void storeChunk(String chunk, Map<String, Object> metadata) {
         Document document = new Document(chunk);
-
         document.getMetadata().putAll(metadata);
-
-        /*
-         Spring AI automatically generates embeddings while
-         storing if an EmbeddingModel is configured.
-
-         Therefore the embedding parameter is currently unused,
-         but we keep it so we can support manual embeddings later.
-        */
-
         vectorStore.add(List.of(document));
-
     }
 
-    /**
-     * Search similar chunks
-     */
     public List<Document> similaritySearch(String question) {
-
-        SearchRequest request = SearchRequest.builder()
-                .query(question)
-                .topK(5)
-                .build();
-
-        return vectorStore.similaritySearch(request);
-
+        return similaritySearch(question, 5);
     }
 
-    /**
-     * Search with custom topK
-     */
-    public List<Document> similaritySearch(
-            String question,
-            int topK
-    ) {
-
+    public List<Document> similaritySearch(String question, int topK) {
         SearchRequest request = SearchRequest.builder()
                 .query(question)
                 .topK(topK)
+                .similarityThreshold(0.0)
                 .build();
-
         return vectorStore.similaritySearch(request);
-
     }
 
-    /**
-     * Store multiple chunks
-     */
-    public void storeDocuments(List<Document> documents) {
-
-        vectorStore.add(documents);
-
-    }
-
-    /**
-     * Delete vectors
-     */
     public void deleteDocuments(List<String> ids) {
-
         vectorStore.delete(ids);
-
     }
-
 }

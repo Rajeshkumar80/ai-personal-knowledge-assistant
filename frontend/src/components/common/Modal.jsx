@@ -11,11 +11,7 @@ const sizes = {
   "2xl": "max-w-2xl",
 };
 
-/**
- * Accessible, animated modal dialog.
- */
 function Modal({ open, onClose, title, children, size = "md", hideClose = false }) {
-  // Close on Escape key
   const handleKey = useCallback(
     (e) => { if (e.key === "Escape" && open) onClose?.(); },
     [open, onClose]
@@ -26,7 +22,6 @@ function Modal({ open, onClose, title, children, size = "md", hideClose = false 
     return () => document.removeEventListener("keydown", handleKey);
   }, [handleKey]);
 
-  // Lock body scroll while open
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -37,55 +32,51 @@ function Modal({ open, onClose, title, children, size = "md", hideClose = false 
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
 
-          {/* Panel */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              initial={{ opacity: 0, scale: 0.96, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 12 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, scale: 0.96, y: 8 }}
+              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                "relative w-full rounded-2xl border border-white/10 bg-[#131827] shadow-2xl shadow-black/60",
+                "relative w-full rounded-xl border border-white/10 bg-[#0a0a0a] shadow-2xl shadow-black/60",
                 sizes[size]
               )}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
               {(title || !hideClose) && (
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/8">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-white/8">
                   {title && (
-                    <h2 id="modal-title" className="text-base font-semibold text-slate-100">
+                    <h2 id="modal-title" className="text-sm font-semibold text-white">
                       {title}
                     </h2>
                   )}
                   {!hideClose && (
                     <button
                       onClick={onClose}
-                      className="ml-auto p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/8 transition-colors"
+                      className="ml-auto p-1.5 rounded-md text-[#666] hover:text-white hover:bg-white/8 transition-colors"
                       aria-label="Close modal"
                     >
-                      <X size={16} />
+                      <X size={15} />
                     </button>
                   )}
                 </div>
               )}
 
-              {/* Content */}
-              <div className="px-6 py-5">
+              <div className="px-5 py-4">
                 {children}
               </div>
             </motion.div>

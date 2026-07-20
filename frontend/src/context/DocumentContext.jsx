@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { getDocuments, uploadDocument, deleteDocument } from "../api/documentApi";
 import toast from "../utils/toast";
@@ -5,11 +6,11 @@ import toast from "../utils/toast";
 const DocumentContext = createContext(null);
 
 export function DocumentProvider({ children }) {
-  const [documents, setDocuments]   = useState([]);
-  const [loading, setLoading]       = useState(false);
-  const [uploading, setUploading]   = useState(false);
+  const [documents, setDocuments]           = useState([]);
+  const [loading, setLoading]               = useState(false);
+  const [uploading, setUploading]           = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [error, setError]           = useState(null);
+  const [error, setError]                   = useState(null);
 
   const fetchDocuments = useCallback(async () => {
     setLoading(true);
@@ -50,15 +51,15 @@ export function DocumentProvider({ children }) {
       await deleteDocument(id);
       setDocuments((prev) => prev.filter((d) => d.id !== id));
       toast.success("Document deleted.");
-    } catch (err) {
+    } catch {
       toast.error("Failed to delete document.");
-      throw err;
+      throw new Error("Delete failed");
     }
   }, []);
 
-  useEffect(() => {
-    fetchDocuments();
-  }, [fetchDocuments]);
+  // Initial load — fetch once on mount
+  // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
+  useEffect(() => { void fetchDocuments(); }, []);
 
   return (
     <DocumentContext.Provider

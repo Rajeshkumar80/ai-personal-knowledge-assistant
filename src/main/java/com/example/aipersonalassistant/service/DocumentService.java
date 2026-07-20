@@ -11,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,20 +25,32 @@ public class DocumentService {
     private final ChatHistoryRepository chatHistoryRepository;
     private final TextExtractionService textExtractionService;
     private final ChunkingService chunkingService;
-    private final EmbeddingService embeddingService;
     private final ChromaService chromaService;
 
     public DocumentDto uploadDocument(MultipartFile file) throws Exception {
 
         log.info("Starting upload for file: {}", file.getOriginalFilename());
 
-        // 1. Extract text
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File is empty.");
+        }
+
         String extractedText = textExtractionService.extractText(file);
 
-        // 2. Split into chunks
+        if (extractedText == null || extractedText.isBlank()) {
+            throw new IllegalArgumentException("Could not extract any text from the file.");
+        }
+
+        log.info("Extracted {} characters from {}", extractedText.length(), file.getOriginalFilename());
+
         List<String> chunks = chunkingService.createChunks(extractedText);
 
-        // 3. Save metadata to MySQL first to get document ID
+        if (chunks.isEmpty()) {
+            throw new IllegalArgumentException("No chunks generated from the file content.");
+        }
+
+        log.info("Split into {} chunks", chunks.size());
+
         Document document = Document.builder()
                 .fileName(file.getOriginalFilename())
                 .fileType(file.getContentType())
@@ -45,21 +60,22 @@ public class DocumentService {
 
         documentRepository.save(document);
 
-        // 4. Store every chunk in ChromaDB
-        int chunkNumber = 1;
-        for (String chunk : chunks) {
-            float[] embedding = embeddingService.generateEmbedding(chunk);
-
-            java.util.Map<String, Object> metadata = new java.util.HashMap<>();
+        List<org.springframework.ai.document.Document> aiDocs = new ArrayList<>();
+        for (int i = 0; i < chunks.size(); i++) {
+            Map<String, Object> metadata = new HashMap<>();
             metadata.put("fileName", file.getOriginalFilename());
-            metadata.put("chunkNumber", chunkNumber);
+            metadata.put("chunkNumber", i + 1);
             metadata.put("documentId", document.getId());
 
-            chromaService.storeEmbedding(chunk, embedding, metadata);
-            chunkNumber++;
+            org.springframework.ai.document.Document aiDoc =
+                    new org.springframework.ai.document.Document(chunks.get(i));
+            aiDoc.getMetadata().putAll(metadata);
+            aiDocs.add(aiDoc);
         }
 
-        log.info("Upload complete: {} | Chunks: {}", file.getOriginalFilename(), chunks.size());
+        chromaService.storeChunks(aiDocs);
+
+        log.info("Upload complete: {} | Chunks stored: {}", file.getOriginalFilename(), chunks.size());
 
         return toDto(document);
     }
@@ -72,24 +88,17 @@ public class DocumentService {
     }
 
     public void deleteDocument(Long id) {
-
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Document", id));
-
-        // Soft delete in MySQL
         document.setDeleted(true);
         documentRepository.save(document);
-
         log.info("Document soft-deleted: id={}, name={}", id, document.getFileName());
     }
 
     public DashboardStatsDto getStats() {
-
         long totalDocuments = documentRepository.countByDeletedFalse();
         long totalChats = chatHistoryRepository.count();
         long totalChunks = documentRepository.sumChunksByDeletedFalse();
-
-        // Format storage size
         long totalBytes = documentRepository.sumFileSizeByDeletedFalse();
         String storage = formatBytes(totalBytes);
 

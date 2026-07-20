@@ -24,34 +24,34 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-6">
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25 }}
         >
-          <h1 className="text-2xl font-bold text-slate-100">
-            {greeting} 👋
+          <h1 className="text-xl font-bold text-white">
+            {greeting}
           </h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-sm text-[#666] mt-1">
             Here's an overview of your AI knowledge workspace.
           </p>
         </motion.div>
 
         {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.08 }}
-          className="grid grid-cols-2 xl:grid-cols-4 gap-4"
+          transition={{ duration: 0.25, delay: 0.06 }}
+          className="grid grid-cols-2 xl:grid-cols-4 gap-3"
         >
           <StatsCard
             title="Documents"
             value={stats?.totalDocuments ?? "—"}
             icon={FileText}
-            color="indigo"
+            color="default"
             loading={statsLoading}
             trend="Total uploaded"
           />
@@ -69,7 +69,7 @@ function Dashboard() {
               ? Number(stats.totalChunks).toLocaleString()
               : "—"}
             icon={Database}
-            color="purple"
+            color="blue"
             loading={statsLoading}
             trend="Indexed in ChromaDB"
           />
@@ -77,7 +77,7 @@ function Dashboard() {
             title="Storage Used"
             value={stats?.totalStorage ?? "—"}
             icon={HardDrive}
-            color="blue"
+            color="default"
             loading={statsLoading}
             trend="Uploaded content"
           />
@@ -85,18 +85,18 @@ function Dashboard() {
 
         {/* Quick Actions */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.14 }}
+          transition={{ duration: 0.25, delay: 0.12 }}
         >
           <QuickActions />
         </motion.div>
 
         {/* Recent Activity */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          transition={{ duration: 0.25, delay: 0.18 }}
         >
           <RecentActivity />
         </motion.div>

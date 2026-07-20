@@ -1,50 +1,77 @@
 @import "tailwindcss";
 
 /* ================================
-   Design Tokens
-================================ */
+   Design Tokens — Vercel-style
+   ================================ */
 :root {
-  --bg-base:        #0a0d14;
-  --bg-surface:     #111827;
-  --bg-elevated:    #1a2235;
-  --bg-overlay:     rgba(17, 24, 39, 0.85);
+  --bg-base:        #000000;
+  --bg-surface:     #0a0a0a;
+  --bg-elevated:    #111111;
+  --bg-overlay:     rgba(0, 0, 0, 0.85);
 
-  --border:         rgba(255,255,255,0.07);
-  --border-hover:   rgba(255,255,255,0.14);
+  --border:         rgba(255,255,255,0.08);
+  --border-hover:   rgba(255,255,255,0.15);
 
-  --text-primary:   #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted:     #475569;
+  --text-primary:   #ededed;
+  --text-secondary: #888888;
+  --text-muted:     #555555;
 
-  --accent:         #6366f1;
-  --accent-hover:   #818cf8;
-  --accent-glow:    rgba(99, 102, 241, 0.25);
+  --accent:         #ffffff;
+  --accent-hover:   #e0e0e0;
+  --accent-glow:    rgba(255, 255, 255, 0.1);
 
-  --success:        #10b981;
-  --warning:        #f59e0b;
-  --danger:         #ef4444;
-  --info:           #3b82f6;
+  --success:        #0070f3;
+  --warning:        #f5a623;
+  --danger:         #ee0000;
+  --info:           #0070f3;
 
   --radius-sm:      6px;
-  --radius-md:      10px;
-  --radius-lg:      14px;
-  --radius-xl:      20px;
+  --radius-md:      8px;
+  --radius-lg:      12px;
+  --radius-xl:      16px;
 
-  --shadow-sm:      0 1px 3px rgba(0,0,0,0.4);
-  --shadow-md:      0 4px 16px rgba(0,0,0,0.5);
-  --shadow-lg:      0 10px 40px rgba(0,0,0,0.6);
-  --shadow-glow:    0 0 30px rgba(99,102,241,0.2);
+  --shadow-sm:      0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md:      0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg:      0 8px 30px rgba(0,0,0,0.5);
 
-  --transition:     all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition:     all 0.15s ease;
 
-  --sidebar-width:       260px;
-  --sidebar-collapsed:   70px;
-  --navbar-height:       60px;
+  --sidebar-width:       240px;
+  --sidebar-collapsed:   64px;
+  --navbar-height:       56px;
+}
+
+/* Light mode */
+.light {
+  --bg-base:        #ffffff;
+  --bg-surface:     #fafafa;
+  --bg-elevated:    #f5f5f5;
+  --bg-overlay:     rgba(255, 255, 255, 0.85);
+
+  --border:         rgba(0,0,0,0.08);
+  --border-hover:   rgba(0,0,0,0.15);
+
+  --text-primary:   #171717;
+  --text-secondary: #666666;
+  --text-muted:     #999999;
+
+  --accent:         #000000;
+  --accent-hover:   #333333;
+  --accent-glow:    rgba(0, 0, 0, 0.06);
+
+  --success:        #0070f3;
+  --warning:        #f5a623;
+  --danger:         #ee0000;
+  --info:           #0070f3;
+
+  --shadow-sm:      0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:      0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:      0 8px 30px rgba(0,0,0,0.12);
 }
 
 /* ================================
    Reset & Base
-================================ */
+   ================================ */
 *,
 *::before,
 *::after {
@@ -61,13 +88,13 @@ body,
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg-base);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 #root {
@@ -79,10 +106,10 @@ body {
 
 /* ================================
    Scrollbar
-================================ */
+   ================================ */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -95,9 +122,16 @@ body {
   background: rgba(255,255,255,0.2);
 }
 
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+}
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+
 /* ================================
    Typography
-================================ */
+   ================================ */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   font-weight: 600;
@@ -105,33 +139,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--accent-hover);
+  color: var(--text-primary);
   text-decoration: none;
 }
 
 /* ================================
-   Glassmorphism Utility
-================================ */
-.glass {
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-}
-
-/* ================================
-   Gradient Text
-================================ */
-.gradient-text {
-  background: linear-gradient(135deg, #818cf8, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ================================
    Prose (Markdown)
-================================ */
+   ================================ */
 .prose {
   color: var(--text-primary);
   line-height: 1.75;
@@ -151,16 +165,15 @@ a {
   margin-bottom: 0.25em;
 }
 .prose code {
-  background: rgba(99,102,241,0.15);
-  border: 1px solid rgba(99,102,241,0.25);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 2px 6px;
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
   font-size: 0.85em;
-  color: #a5b4fc;
 }
 .prose pre {
-  background: #0d1117;
+  background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 1rem;
@@ -171,10 +184,9 @@ a {
   background: transparent;
   border: none;
   padding: 0;
-  color: #e2e8f0;
 }
 .prose blockquote {
-  border-left: 3px solid var(--accent);
+  border-left: 2px solid var(--text-muted);
   padding-left: 1rem;
   color: var(--text-secondary);
   margin-bottom: 0.875em;
@@ -184,7 +196,6 @@ a {
   font-weight: 600;
 }
 .prose a {
-  color: var(--accent-hover);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -205,38 +216,31 @@ a {
 
 /* ================================
    Animation Utilities
-================================ */
+   ================================ */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-10px); }
+  from { opacity: 0; transform: translateX(-8px); }
   to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes pulse-dot {
-  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-  40%           { transform: scale(1);   opacity: 1; }
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
 
-.animate-fade-in   { animation: fadeIn 0.3s ease both; }
-.animate-slide-in  { animation: slideIn 0.25s ease both; }
+.animate-fade-in   { animation: fadeIn 0.2s ease both; }
+.animate-slide-in  { animation: slideIn 0.2s ease both; }
 
 /* ================================
    Skeleton Loader
-================================ */
+   ================================ */
 .skeleton {
   background: linear-gradient(
     90deg,
     var(--bg-elevated) 25%,
-    rgba(255,255,255,0.05) 50%,
+    var(--bg-surface) 50%,
     var(--bg-elevated) 75%
   );
   background-size: 200% 100%;

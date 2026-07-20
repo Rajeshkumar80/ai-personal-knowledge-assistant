@@ -9,99 +9,76 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Service
 public class TextExtractionService {
 
     public String extractText(MultipartFile file) throws Exception {
-
         String fileName = file.getOriginalFilename();
-
         if (fileName == null) {
             throw new IllegalArgumentException("Invalid file.");
         }
 
-        String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
-        return switch (extension) {
-
+        return switch (ext) {
             case "pdf" -> extractPdf(file);
-
             case "docx" -> extractDocx(file);
-
             case "txt" -> extractTxt(file);
-
             case "png", "jpg", "jpeg" -> extractImage(file);
-
-            default -> throw new IllegalArgumentException("Unsupported file type.");
+            default -> throw new IllegalArgumentException("Unsupported file type: " + ext);
         };
     }
 
     private String extractPdf(MultipartFile file) throws IOException {
-
-        var document = Loader.loadPDF(file.getBytes());
-
-        PDFTextStripper stripper = new PDFTextStripper();
-
-        String text = stripper.getText(document);
-
-        document.close();
-
-        return text;
+        byte[] bytes = file.getBytes();
+        var document = Loader.loadPDF(bytes);
+        try {
+            PDFTextStripper stripper = new PDFTextStripper();
+            return stripper.getText(document);
+        } finally {
+            document.close();
+        }
     }
 
     private String extractDocx(MultipartFile file) throws IOException {
-
         XWPFDocument document = new XWPFDocument(file.getInputStream());
-
-        XWPFWordExtractor extractor = new XWPFWordExtractor(document);
-
-        String text = extractor.getText();
-
-        extractor.close();
-
-        document.close();
-
-        return text;
+        try {
+            XWPFWordExtractor extractor = new XWPFWordExtractor(document);
+            try {
+                return extractor.getText();
+            } finally {
+                extractor.close();
+            }
+        } finally {
+            document.close();
+        }
     }
 
     private String extractTxt(MultipartFile file) throws IOException {
-
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(file.getInputStream()));
-
-        StringBuilder builder = new StringBuilder();
-
+        BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+        StringBuilder sb = new StringBuilder();
         String line;
-
         while ((line = reader.readLine()) != null) {
-
-            builder.append(line).append("\n");
-
+            sb.append(line).append("\n");
         }
-
         reader.close();
-
-        return builder.toString();
+        return sb.toString();
     }
 
-    private String extractImage(MultipartFile file)
-            throws IOException, TesseractException {
-
+    private String extractImage(MultipartFile file) throws IOException, TesseractException {
         File temp = File.createTempFile("image", ".png");
-
-        file.transferTo(temp);
-
-        Tesseract tesseract = new Tesseract();
-
-        tesseract.setDatapath("tessdata");
-
-        String text = tesseract.doOCR(temp);
-
-        temp.delete();
-
-        return text;
+        try {
+            file.transferTo(temp);
+            Tesseract tesseract = new Tesseract();
+            tesseract.setDatapath("tessdata");
+            return tesseract.doOCR(temp);
+        } finally {
+            temp.delete();
+        }
     }
-
 }
