@@ -1,0 +1,35 @@
+.navbar{
+
+height:65px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 30px;
+
+border-bottom:1px solid #374151;
+
+}
+
+.logo{
+
+font-size:22px;
+
+font-weight:bold;
+
+}
+
+.profile{
+
+background:#2563eb;
+
+padding:10px 20px;
+
+border-radius:8px;
+
+}

@@ -1,98 +1,122 @@
 package com.example.aipersonalassistant.service;
 
+import com.example.aipersonalassistant.dto.DashboardStatsDto;
+import com.example.aipersonalassistant.dto.DocumentDto;
 import com.example.aipersonalassistant.entity.Document;
+import com.example.aipersonalassistant.exception.ResourceNotFoundException;
+import com.example.aipersonalassistant.repository.ChatHistoryRepository;
 import com.example.aipersonalassistant.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DocumentService {
 
     private final DocumentRepository documentRepository;
-
+    private final ChatHistoryRepository chatHistoryRepository;
     private final TextExtractionService textExtractionService;
-
     private final ChunkingService chunkingService;
-
     private final EmbeddingService embeddingService;
-
     private final ChromaService chromaService;
 
-    public void uploadDocument(MultipartFile file) throws Exception {
+    public DocumentDto uploadDocument(MultipartFile file) throws Exception {
+
+        log.info("Starting upload for file: {}", file.getOriginalFilename());
 
         // 1. Extract text
-
         String extractedText = textExtractionService.extractText(file);
 
         // 2. Split into chunks
+        List<String> chunks = chunkingService.createChunks(extractedText);
 
-        List<String> chunks =
-                chunkingService.createChunks(extractedText);
-
-        // 3. Save metadata
-
-        Document document =
-                Document.builder()
-                        .fileName(file.getOriginalFilename())
-                        .fileType(file.getContentType())
-                        .uploadDate(LocalDateTime.now())
-                        .build();
+        // 3. Save metadata to MySQL first to get document ID
+        Document document = Document.builder()
+                .fileName(file.getOriginalFilename())
+                .fileType(file.getContentType())
+                .fileSize(file.getSize())
+                .chunkCount(chunks.size())
+                .build();
 
         documentRepository.save(document);
 
-        // 4. Store every chunk inside Chroma
-
+        // 4. Store every chunk in ChromaDB
         int chunkNumber = 1;
-
         for (String chunk : chunks) {
+            float[] embedding = embeddingService.generateEmbedding(chunk);
 
-            float[] embedding =
-                    embeddingService.generateEmbedding(chunk);
+            java.util.Map<String, Object> metadata = new java.util.HashMap<>();
+            metadata.put("fileName", file.getOriginalFilename());
+            metadata.put("chunkNumber", chunkNumber);
+            metadata.put("documentId", document.getId());
 
-            Map<String,Object> metadata = new HashMap<>();
-
-metadata.put("fileName", file.getOriginalFilename());
-
-metadata.put("chunkNumber", chunkNumber);
-
-metadata.put("documentId", document.getId());
-
-chromaService.storeEmbedding(
-        chunk,
-        embedding,
-        metadata
-);
-
+            chromaService.storeEmbedding(chunk, embedding, metadata);
             chunkNumber++;
-
         }
 
-        System.out.println("===================================");
+        log.info("Upload complete: {} | Chunks: {}", file.getOriginalFilename(), chunks.size());
 
-        System.out.println("Upload Successful");
-
-        System.out.println("File : "
-                + file.getOriginalFilename());
-
-        System.out.println("Chunks : "
-                + chunks.size());
-
-        System.out.println("===================================");
-
+        return toDto(document);
     }
 
-    public List<Document> getAllDocuments() {
-
-        return documentRepository.findAll();
-
+    public List<DocumentDto> getAllDocuments() {
+        return documentRepository.findByDeletedFalseOrderByUploadDateDesc()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
-    
 
+    public void deleteDocument(Long id) {
+
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document", id));
+
+        // Soft delete in MySQL
+        document.setDeleted(true);
+        documentRepository.save(document);
+
+        log.info("Document soft-deleted: id={}, name={}", id, document.getFileName());
+    }
+
+    public DashboardStatsDto getStats() {
+
+        long totalDocuments = documentRepository.countByDeletedFalse();
+        long totalChats = chatHistoryRepository.count();
+        long totalChunks = documentRepository.sumChunksByDeletedFalse();
+
+        // Format storage size
+        long totalBytes = documentRepository.sumFileSizeByDeletedFalse();
+        String storage = formatBytes(totalBytes);
+
+        return DashboardStatsDto.builder()
+                .totalDocuments(totalDocuments)
+                .totalChats(totalChats)
+                .totalChunks(totalChunks)
+                .totalStorage(storage)
+                .build();
+    }
+
+    private DocumentDto toDto(Document doc) {
+        return DocumentDto.builder()
+                .id(doc.getId())
+                .fileName(doc.getFileName())
+                .fileType(doc.getFileType())
+                .fileSize(doc.getFileSize())
+                .description(doc.getDescription())
+                .uploadDate(doc.getUploadDate())
+                .chunkCount(doc.getChunkCount())
+                .build();
+    }
+
+    private String formatBytes(long bytes) {
+        if (bytes < 1024) return bytes + " B";
+        if (bytes < 1024 * 1024) return String.format("%.1f KB", bytes / 1024.0);
+        if (bytes < 1024 * 1024 * 1024) return String.format("%.1f MB", bytes / (1024.0 * 1024));
+        return String.format("%.1f GB", bytes / (1024.0 * 1024 * 1024));
+    }
 }

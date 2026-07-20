@@ -2,11 +2,14 @@ package com.example.aipersonalassistant.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chat_history")
+@Table(name = "chat_history", indexes = {
+        @Index(name = "idx_chat_created_at", columnList = "createdAt")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,12 +27,13 @@ public class ChatHistory {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String answer;
 
-    @Column(nullable = false)
+    @Column
     private String sourceFile;
 
-    @Column(nullable = false)
+    @Column
     private Integer pageNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }

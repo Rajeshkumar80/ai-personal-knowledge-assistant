@@ -2,11 +2,16 @@ package com.example.aipersonalassistant.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "documents")
+@Table(name = "documents", indexes = {
+        @Index(name = "idx_document_file_name", columnList = "fileName"),
+        @Index(name = "idx_document_upload_date", columnList = "uploadDate")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +29,25 @@ public class Document {
     @Column(nullable = false)
     private String fileType;
 
-    @Column(nullable = false)
+    @Column
+    private Long fileSize;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime uploadDate;
+
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer chunkCount = 0;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean deleted = false;
 }

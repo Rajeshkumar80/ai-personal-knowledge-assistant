@@ -3,9 +3,9 @@ package com.example.aipersonalassistant.service;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ public class ChromaService {
 
     private final VectorStore vectorStore;
 
-    public ChromaService(VectorStore vectorStore) {
+    public ChromaService(@Lazy VectorStore vectorStore) {
         this.vectorStore = vectorStore;
     }
 
