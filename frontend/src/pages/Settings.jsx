@@ -84,25 +84,25 @@ function Settings() {
               >
                 <div className="flex items-center gap-1 rounded-lg border border-border bg-glow p-0.5">
                   <button
-                    onClick={() => !isDark && toggleTheme()}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-                      isDark
-                        ? "bg-fg text-base"
-                        : "text-fg-dim hover:text-fg"
-                    }`}
-                  >
-                    <Moon size={12} /> Dark
-                  </button>
-                  <button
-                    onClick={() => isDark && toggleTheme()}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-                      !isDark
-                        ? "bg-base text-fg"
-                        : "text-fg-dim hover:text-fg"
-                    }`}
-                  >
-                    <Sun size={12} /> Light
-                  </button>
+                     onClick={toggleTheme}
+                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                       isDark
+                         ? "bg-fg text-base"
+                         : "text-fg-dim hover:text-fg"
+                     }`}
+                   >
+                     <Moon size={12} /> Dark
+                   </button>
+                   <button
+                     onClick={toggleTheme}
+                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                       !isDark
+                         ? "bg-base text-fg"
+                         : "text-fg-dim hover:text-fg"
+                     }`}
+                   >
+                     <Sun size={12} /> Light
+                   </button>
                 </div>
               </SettingRow>
             </Card>

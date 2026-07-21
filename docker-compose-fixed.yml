@@ -1,0 +1,41 @@
+# Docker Compose file for OpenAI integration
+# Note: build context requires the AI_API_KEY as a build argument
+# to avoid storing secrets in version control
+
+version: '3.8'
+
+services:
+  ai-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        AI_API_KEY: "${AI_API_KEY}"
+    container_name: ai-personal-knowledge-assistant
+    ports:
+      - '8081:8081'
+    environment:
+      SPRING_APPLICATION_NAME: ai-personal-knowledge-assistant
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8081/actuator/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ai_personal_assistant
+      MYSQL_PORT: 3305
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - '3305:3305'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+volumes:
+  mysql-data:

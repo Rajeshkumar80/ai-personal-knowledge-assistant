@@ -18,7 +18,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>AI Personal Knowledge Assistant</name>
-    <description>AI Powered Personal Knowledge Assistant using Spring AI + Ollama + ChromaDB</description>
+    <description>AI Powered Personal Knowledge Assistant using Spring AI + Ollama + PostgreSQL Vector Store</description>
 
     <properties>
 
@@ -94,7 +94,7 @@
         </dependency>
 
         <!-- ========================= -->
-        <!-- Spring AI Chroma -->
+        <!-- Spring AI Vector Store (ChromaDB) -->
         <!-- ========================= -->
 
         <dependency>

@@ -1,5 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useEffect, useCallback } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext(null);
 
@@ -8,9 +7,9 @@ export function ThemeProvider({ children }) {
     () => localStorage.getItem("theme") || "dark"
   );
 
-  const toggleTheme = useCallback(() => {
+  const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  }, []);
+  };
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -25,7 +24,7 @@ export function ThemeProvider({ children }) {
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === "dark" }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, isDark: theme === "dark" }}>
       {children}
     </ThemeContext.Provider>
   );

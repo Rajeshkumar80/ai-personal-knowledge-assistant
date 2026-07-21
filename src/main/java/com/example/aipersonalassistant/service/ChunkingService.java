@@ -20,19 +20,20 @@ public class ChunkingService {
         }
 
         String cleaned = text.replaceAll("\\r\\n", "\n").replaceAll("[ \\t]+", " ").trim();
+        int length = cleaned.length();
 
         int start = 0;
 
-        while (start < cleaned.length()) {
+        while (start < length) {
 
-            int end = Math.min(start + CHUNK_SIZE, cleaned.length());
+            int end = Math.min(start + CHUNK_SIZE, length);
 
-            if (end < cleaned.length()) {
-                // Try sentence boundary first
+            if (end < length) {
+                // Try sentence boundary first (must be > start + OVERLAP to ensure progress)
                 int lastSentence = -1;
-                for (int i = end - 1; i >= start && i >= end - 120; i--) {
+                for (int i = end - 1; i >= start + OVERLAP && i >= end - 120; i--) {
                     char c = cleaned.charAt(i);
-                    if ((c == '.' || c == '!' || c == '?') && i + 1 < cleaned.length()) {
+                    if ((c == '.' || c == '!' || c == '?') && i + 1 < length) {
                         char next = cleaned.charAt(i + 1);
                         if (next == ' ' || next == '\n') {
                             lastSentence = i + 1;
@@ -41,12 +42,12 @@ public class ChunkingService {
                     }
                 }
 
-                if (lastSentence > start) {
+                if (lastSentence > start + OVERLAP) {
                     end = lastSentence;
                 } else {
-                    // Fall back to word boundary
+                    // Fall back to word boundary (must be > start + OVERLAP)
                     int lastSpace = cleaned.lastIndexOf(' ', end - 1);
-                    if (lastSpace > start) {
+                    if (lastSpace > start + OVERLAP) {
                         end = lastSpace + 1;
                     }
                 }
@@ -57,9 +58,12 @@ public class ChunkingService {
                 chunks.add(chunk);
             }
 
-            start = end - OVERLAP;
-            if (start <= 0 || start >= cleaned.length()) {
-                break;
+            // Ensure start ALWAYS advances forward
+            int nextStart = end - OVERLAP;
+            if (nextStart <= start) {
+                start = end;
+            } else {
+                start = nextStart;
             }
         }
 

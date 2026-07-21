@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class RagService {
 
-    private final ChromaService chromaService;
+    private final VectorStoreService vectorStoreService;
     private final OllamaService ollamaService;
     private final ChatHistoryRepository chatHistoryRepository;
 
@@ -25,8 +25,14 @@ public class RagService {
         String question = request.getQuestion();
         log.info("RAG request: {}", question);
 
-        // 1. Semantic similarity search in ChromaDB
-        List<Document> documents = chromaService.similaritySearch(question);
+        // 1. Semantic similarity search using vector store (ChromaDB disabled, database fallback)
+        List<Document> documents;
+        try {
+            documents = vectorStoreService.similaritySearch(question);
+        } catch (Exception e) {
+            log.error("Vector store similarity search failed: {}", e.getMessage());
+            documents = List.of();
+        }
 
         StringBuilder context = new StringBuilder();
         String sourceFile = null;
@@ -34,6 +40,27 @@ public class RagService {
 
         if (documents.isEmpty()) {
             log.warn("No similar documents found for question: {}", question);
+            
+            // Fallback: Use all available chunks for basic context retrieval
+            List<Document> allChunks = vectorStoreService.getAllChunks();
+            if (!allChunks.isEmpty()) {
+                log.info("Fallback: Found {} total chunks for context retrieval", allChunks.size());
+                for (Document document : allChunks) {
+                    context.append(document.getText()).append("\n\n");
+                    
+                    if (sourceFile == null && document.getMetadata().containsKey("fileName")) {
+                        sourceFile = document.getMetadata().get("fileName").toString();
+                    }
+                    
+                    if (pageNumber == null && document.getMetadata().containsKey("pageNumber")) {
+                        try {
+                            pageNumber = Integer.parseInt(
+                                    document.getMetadata().get("pageNumber").toString()
+                            );
+                        } catch (NumberFormatException ignored) {}
+                    }
+                }
+            }
         } else {
             log.info("Found {} similar document chunks", documents.size());
         }
@@ -86,7 +113,13 @@ public class RagService {
         }
 
         // 3. Call local LLM
-        String answer = ollamaService.askLLM(prompt);
+        String answer;
+        try {
+            answer = ollamaService.askLLM(prompt);
+        } catch (Exception e) {
+            log.error("Ollama LLM call failed: {}", e.getMessage());
+            answer = "I couldn't find the answer in the uploaded documents.";
+        }
 
         // 4. Persist chat history
         ChatHistory history = ChatHistory.builder()

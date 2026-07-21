@@ -1,0 +1,120 @@
+services:
+
+  # ─────────────────────────────────────────
+  # MySQL Database
+  # ─────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ai_personal_assistant
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_TCP_PORT: 3305
+    ports:
+      - '3307:3305'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-P', '3305', '-uroot', '-proot']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # ChromaDB Vector Store
+  # ─────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb-server
+    ports:
+      - '8000:8000'
+    volumes:
+      - chroma-data:/chroma/chroma
+    healthcheck:
+      test: ['CMD', 'bash', '-c', 'bash -c "</dev/tcp/localhost/8000" 2>/dev/null && echo ok']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # Ollama (Local LLM)
+  # ─────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-server
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama-data:/root/.ollama
+    healthcheck:
+      test: ['CMD', 'bash', '-c', 'bash -c "</dev/tcp/localhost/11434" 2>/dev/null && echo ok']
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────
+  # Ollama Model Initializer (runs once)
+  # Pulls llama3.2:1b and all-minilm models
+  # ─────────────────────────────────────────
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: ollama-init
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Pulling llama3.2:1b model..."
+        OLLAMA_HOST=http://ollama:11434 ollama pull llama3.2:1b
+        echo "Pulling all-minilm embedding model..."
+        OLLAMA_HOST=http://ollama:11434 ollama pull all-minilm
+        echo "All models ready."
+    restart: 'no'
+
+  # ─────────────────────────────────────────
+  # Spring Boot AI Assistant
+  # ─────────────────────────────────────────
+  ai-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-personal-knowledge-assistant
+    ports:
+      - '8081:8081'
+    environment:
+      # Database
+      DB_HOST: mysql
+      DB_PORT: 3305
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      # Ollama
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_CHAT_MODEL: llama3.2:1b
+      OLLAMA_EMBEDDING_MODEL: all-minilm
+      # ChromaDB
+      CHROMA_HOST: http://chromadb
+      CHROMA_PORT: 8000
+    depends_on:
+      mysql:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8081/actuator/health']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  chroma-data:
+  ollama-data:

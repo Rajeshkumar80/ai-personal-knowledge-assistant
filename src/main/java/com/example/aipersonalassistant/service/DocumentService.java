@@ -5,7 +5,7 @@ import com.example.aipersonalassistant.dto.DocumentDto;
 import com.example.aipersonalassistant.entity.Document;
 import com.example.aipersonalassistant.exception.ResourceNotFoundException;
 import com.example.aipersonalassistant.repository.ChatHistoryRepository;
-import com.example.aipersonalassistant.repository.DocumentRepository;
+import com.example.aipersonalassistant.repository.DocumentJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,11 +21,11 @@ import java.util.Map;
 @Slf4j
 public class DocumentService {
 
-    private final DocumentRepository documentRepository;
+    private final DocumentJpaRepository documentRepository;
     private final ChatHistoryRepository chatHistoryRepository;
     private final TextExtractionService textExtractionService;
     private final ChunkingService chunkingService;
-    private final ChromaService chromaService;
+    private final VectorStoreService vectorStoreService;
 
     public DocumentDto uploadDocument(MultipartFile file) throws Exception {
 
@@ -73,7 +73,7 @@ public class DocumentService {
             aiDocs.add(aiDoc);
         }
 
-        chromaService.storeChunks(aiDocs);
+        vectorStoreService.storeChunks(aiDocs);
 
         log.info("Upload complete: {} | Chunks stored: {}", file.getOriginalFilename(), chunks.size());
 

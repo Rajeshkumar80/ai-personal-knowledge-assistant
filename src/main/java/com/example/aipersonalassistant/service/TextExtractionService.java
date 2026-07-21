@@ -77,8 +77,12 @@ public class TextExtractionService {
             Tesseract tesseract = new Tesseract();
             tesseract.setDatapath("tessdata");
             return tesseract.doOCR(temp);
+        } catch (Exception e) {
+            throw new IOException("Failed to extract image text: " + e.getMessage(), e);
         } finally {
-            temp.delete();
+            if (temp.exists()) {
+                temp.delete();
+            }
         }
     }
 }
