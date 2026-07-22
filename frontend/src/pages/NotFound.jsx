@@ -14,14 +14,11 @@ function NotFound() {
         transition={{ duration: 0.4 }}
         className="text-center space-y-6 max-w-md"
       >
-        {/* Icon */}
         <div className="flex justify-center">
           <div className="w-20 h-20 rounded-3xl bg-glow border border-border flex items-center justify-center text-fg-faint">
             <SearchX size={36} />
           </div>
         </div>
-
-        {/* Text */}
         <div className="space-y-2">
           <h1 className="text-6xl font-bold text-fg-faint">404</h1>
           <h2 className="text-xl font-semibold text-fg">Page not found</h2>
@@ -29,7 +26,6 @@ function NotFound() {
             The page you're looking for doesn't exist or has been moved.
           </p>
         </div>
-
         <Button icon={Home} onClick={() => navigate("/dashboard")}>
           Back to Dashboard
         </Button>

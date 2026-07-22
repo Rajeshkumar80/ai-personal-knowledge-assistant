@@ -5,9 +5,9 @@ import { cn } from "../../utils/cn";
 
 const icons = {
   success: { Icon: CheckCircle2, color: "text-emerald-400" },
-  error:   { Icon: XCircle,      color: "text-[#ee0000]" },
+  error:   { Icon: XCircle,      color: "text-danger" },
   warning: { Icon: AlertCircle,  color: "text-amber-400" },
-  info:    { Icon: Info,         color: "text-blue-400" },
+  info:    { Icon: Info,         color: "text-indigo-400" },
 };
 
 function Toast({ id, type, message, onRemove }) {
@@ -21,11 +21,11 @@ function Toast({ id, type, message, onRemove }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, x: 40, scale: 0.95 }}
+      initial={{ opacity: 0, x: 50, scale: 0.95 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
-      exit={{ opacity: 0, x: 40, scale: 0.95 }}
+      exit={{ opacity: 0, x: 50, scale: 0.95 }}
       transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-      className="flex items-start gap-3 bg-surface border border-border rounded-xl px-4 py-3 shadow-xl max-w-sm w-full"
+      className="flex items-start gap-3 bg-card border border-border rounded-2xl px-4 py-3.5 shadow-lg max-w-sm w-full"
     >
       <Icon size={15} className={cn("mt-0.5 shrink-0", color)} />
       <p className="text-sm text-fg flex-1 leading-snug">{message}</p>

@@ -30,22 +30,20 @@ function MessageBubble({ message }) {
         "max-w-full"
       )}
     >
-      {/* Avatar */}
       <div
         className={cn(
-          "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mb-1",
+          "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mb-1",
           isUser
             ? "bg-elevated order-last"
-            : "bg-accent"
+            : "bg-gradient-to-br from-indigo-500 to-violet-500"
         )}
       >
         {isUser
           ? <User size={13} className="text-fg-dim" />
-          : <Brain size={13} className="text-base" />
+          : <Brain size={13} className="text-white" />
         }
       </div>
 
-      {/* Bubble */}
       <div className={cn("flex flex-col gap-1", isUser ? "items-end" : "items-start", "max-w-[78%]")}>
         <div
           className={cn(
@@ -54,18 +52,18 @@ function MessageBubble({ message }) {
               ? "bg-accent text-base rounded-br-sm"
               : isError
                 ? "bg-danger/10 border border-danger/20 text-danger rounded-bl-sm"
-                : "bg-glow border border-border text-fg rounded-bl-sm"
+                : "bg-card border border-border text-fg rounded-bl-sm"
           )}
         >
           {isUser ? (
             <p className="whitespace-pre-wrap">{content}</p>
           ) : isError ? (
             <div className="flex items-start gap-2">
-              <AlertTriangle size={14} className="text-[#ee0000] mt-0.5 shrink-0" />
+              <AlertTriangle size={14} className="text-danger mt-0.5 shrink-0" />
               <p>{content}</p>
             </div>
           ) : (
-            <div className="prose max-w-none text-fg [&_code]:text-fg-dim [&_pre]:bg-elevated [&_pre]:border [&_pre]:border-border [&_pre]:rounded-lg [&_pre]:p-3 [&_a]:text-fg">
+            <div className="prose max-w-none text-fg [&_code]:text-fg-dim [&_pre]:bg-elevated [&_pre]:border [&_pre]:border-border [&_pre]:rounded-xl [&_pre]:p-3 [&_a]:text-info">
               <ReactMarkdown>{content}</ReactMarkdown>
             </div>
           )}
@@ -74,7 +72,7 @@ function MessageBubble({ message }) {
             <button
               onClick={handleCopy}
               className={cn(
-                "absolute -top-2 -right-2 w-6 h-6 rounded-md bg-elevated border border-border flex items-center justify-center",
+                "absolute -top-2 -right-2 w-6 h-6 rounded-lg bg-elevated border border-border flex items-center justify-center",
                 "text-fg-dim hover:text-fg hover:border-border-hover transition-all",
                 "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100"
               )}

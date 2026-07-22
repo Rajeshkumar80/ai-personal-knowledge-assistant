@@ -4,8 +4,8 @@ function Card({ children, className, hover = false, ...props }) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-glow",
-        hover && "transition-all duration-150 hover:border-border-hover",
+        "rounded-2xl border border-border bg-card",
+        hover && "transition-all duration-200 hover:border-border-hover hover:bg-card-hover hover:-translate-y-0.5",
         className
       )}
       {...props}
@@ -17,7 +17,7 @@ function Card({ children, className, hover = false, ...props }) {
 
 Card.Header = function CardHeader({ children, className }) {
   return (
-    <div className={cn("px-5 pt-5 pb-3", className)}>
+    <div className={cn("px-6 pt-6 pb-3", className)}>
       {children}
     </div>
   );
@@ -25,7 +25,7 @@ Card.Header = function CardHeader({ children, className }) {
 
 Card.Body = function CardBody({ children, className }) {
   return (
-    <div className={cn("px-5 pb-5", className)}>
+    <div className={cn("px-6 pb-6", className)}>
       {children}
     </div>
   );

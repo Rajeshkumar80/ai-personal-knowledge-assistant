@@ -37,37 +37,33 @@ function Modal({ open, onClose, title, children, size = "md", hideClose = false 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-40 bg-base/70 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-overlay backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
-
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-labelledby="modal-title"
-              initial={{ opacity: 0, scale: 0.96, y: 8 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 8 }}
-              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                "relative w-full rounded-xl border border-border bg-surface shadow-2xl",
+                "relative w-full rounded-2xl border border-border bg-surface shadow-lg",
                 sizes[size]
               )}
               onClick={(e) => e.stopPropagation()}
             >
               {(title || !hideClose) && (
-                <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                   {title && (
-                    <h2 id="modal-title" className="text-sm font-semibold text-fg">
-                      {title}
-                    </h2>
+                    <h2 className="text-sm font-semibold text-fg">{title}</h2>
                   )}
                   {!hideClose && (
                     <button
                       onClick={onClose}
-                      className="ml-auto p-1.5 rounded-md text-fg-dim hover:text-fg hover:bg-glow transition-colors"
+                      className="ml-auto p-1.5 rounded-lg text-fg-dim hover:text-fg hover:bg-glow transition-colors"
                       aria-label="Close modal"
                     >
                       <X size={15} />
@@ -75,10 +71,7 @@ function Modal({ open, onClose, title, children, size = "md", hideClose = false 
                   )}
                 </div>
               )}
-
-              <div className="px-5 py-4">
-                {children}
-              </div>
+              <div className="px-6 py-5">{children}</div>
             </motion.div>
           </div>
         </>

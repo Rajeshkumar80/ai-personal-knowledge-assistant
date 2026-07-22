@@ -48,11 +48,11 @@ function UploadBox({ onFiles }) {
       onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
       aria-label="Upload document"
       className={cn(
-        "relative rounded-xl border-2 border-dashed transition-all duration-150 cursor-pointer",
-        "flex flex-col items-center justify-center gap-4 py-10 px-6 text-center",
+        "relative rounded-2xl border-2 border-dashed transition-all duration-150 cursor-pointer",
+        "flex flex-col items-center justify-center gap-4 py-12 px-6 text-center",
         dragging
           ? "border-border-hover bg-glow/60 scale-[1.01]"
-          : "border-border bg-glow hover:border-border-hover hover:bg-glow/80"
+          : "border-border bg-glow hover:border-border-hover hover:bg-card"
       )}
     >
       <input
@@ -64,7 +64,6 @@ function UploadBox({ onFiles }) {
         className="hidden"
         aria-hidden="true"
       />
-
       <AnimatePresence mode="wait">
         {dragging ? (
           <motion.div
@@ -72,7 +71,7 @@ function UploadBox({ onFiles }) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="w-12 h-12 rounded-xl bg-glow border border-border-hover flex items-center justify-center"
+            className="w-12 h-12 rounded-2xl bg-glow border border-border-hover flex items-center justify-center"
           >
             <Upload size={20} className="text-fg" />
           </motion.div>
@@ -81,13 +80,12 @@ function UploadBox({ onFiles }) {
             key="idle"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-12 h-12 rounded-xl bg-glow border border-border flex items-center justify-center"
+            className="w-12 h-12 rounded-2xl bg-glow border border-border flex items-center justify-center"
           >
             <Upload size={20} className="text-fg-faint" />
           </motion.div>
         )}
       </AnimatePresence>
-
       <div className="space-y-1.5">
         <p className="text-sm font-semibold text-fg">
           {dragging ? "Drop files here" : "Drag & drop files or click to browse"}
@@ -96,7 +94,6 @@ function UploadBox({ onFiles }) {
           Supports PDF, DOCX, TXT, PNG, JPG — up to 20 MB each
         </p>
       </div>
-
       <div className="flex items-center gap-2 flex-wrap justify-center">
         {Object.values(ACCEPTED_TYPES).map((label) => (
           <span

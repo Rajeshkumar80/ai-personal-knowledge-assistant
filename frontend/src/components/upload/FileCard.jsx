@@ -38,33 +38,28 @@ function FileCard({ doc, onDelete }) {
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        whileHover={{ y: -2 }}
+        whileHover={{ y: -3 }}
         transition={{ duration: 0.15 }}
-        className="group rounded-xl border border-border bg-glow p-4 hover:border-border-hover hover:bg-glow/80 transition-all duration-150"
+        className="group rounded-2xl border border-border bg-card p-4 hover:border-border-hover hover:bg-card-hover transition-all duration-200"
       >
         <div className="flex items-start justify-between mb-3">
-          <div className="w-9 h-9 rounded-lg bg-glow border border-border flex items-center justify-center text-fg-dim">
+          <div className="w-9 h-9 rounded-xl bg-glow border border-border flex items-center justify-center text-fg-dim">
             <FileTypeIcon fileType={doc.fileType} fileName={doc.fileName} />
           </div>
           <div className="flex items-center gap-2">
             <Badge variant={labelVariant}>{label}</Badge>
             <button
               onClick={() => setConfirmOpen(true)}
-              className="w-6 h-6 rounded-md flex items-center justify-center text-fg-faint hover:text-danger hover:bg-danger/10 transition-all opacity-0 group-hover:opacity-100"
+              className="w-6 h-6 rounded-lg flex items-center justify-center text-fg-faint hover:text-danger hover:bg-danger/10 transition-all opacity-0 group-hover:opacity-100"
               aria-label={`Delete ${doc.fileName}`}
             >
               <Trash2 size={12} />
             </button>
           </div>
         </div>
-
-        <p
-          className="text-sm font-medium text-fg leading-snug mb-1 line-clamp-2"
-          title={doc.fileName}
-        >
+        <p className="text-sm font-medium text-fg leading-snug mb-1 line-clamp-2" title={doc.fileName}>
           {doc.fileName}
         </p>
-
         <div className="flex flex-col gap-1 mt-3 pt-3 border-t border-border">
           <div className="flex items-center justify-between text-[11px] text-fg-faint">
             <span className="flex items-center gap-1.5">
@@ -79,7 +74,6 @@ function FileCard({ doc, onDelete }) {
           </div>
         </div>
       </motion.div>
-
       <ConfirmDialog
         open={confirmOpen}
         onClose={() => setConfirmOpen(false)}

@@ -13,14 +13,14 @@ const WELCOME_SUGGESTIONS = [
 
 function WelcomeScreen({ onSuggest }) {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
-      <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center mb-5">
-        <Brain size={24} className="text-base" />
+    <div className="flex-1 min-h-0 flex flex-col items-center justify-center px-6 py-20 text-center">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center mb-6 shadow-sm">
+        <Brain size={22} className="text-white" />
       </div>
-      <h2 className="text-xl font-semibold text-fg mb-2">
+      <h2 className="text-xl font-semibold text-fg mb-2 tracking-tight">
         Your AI Knowledge Assistant
       </h2>
-      <p className="text-sm text-fg-dim max-w-sm mb-8">
+      <p className="text-sm text-fg-dim max-w-sm mb-8 leading-relaxed">
         Ask questions about your uploaded documents. The AI will find relevant
         information and answer with citations.
       </p>
@@ -29,7 +29,7 @@ function WelcomeScreen({ onSuggest }) {
           <button
             key={s}
             onClick={() => onSuggest(s)}
-            className="text-sm px-4 py-3 rounded-lg border border-border bg-glow text-fg-dim hover:bg-glow/80 hover:border-border-hover hover:text-fg transition-all text-left flex items-center gap-3"
+            className="text-sm px-4 py-3 rounded-xl border border-border bg-glow text-fg-dim hover:bg-card hover:border-border-hover hover:text-fg transition-all text-left flex items-center gap-3"
           >
             <MessageSquare size={14} className="text-fg-faint shrink-0" />
             {s}
@@ -53,8 +53,8 @@ function ChatWindow({ onSuggest }) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="flex-1 min-h-0 overflow-y-auto px-4 py-6">
+      <div className="max-w-3xl mx-auto space-y-5">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <MessageBubble key={msg.id} message={msg} />

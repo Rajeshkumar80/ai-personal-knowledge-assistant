@@ -5,15 +5,12 @@ import EmptyState from "../common/EmptyState";
 import Button from "../common/Button";
 import { Skeleton } from "../common/Loader";
 
-/**
- * Grid of FileCards with loading skeletons and empty state.
- */
 function FileList({ documents, loading, onDelete, onUploadClick }) {
   if (loading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="rounded-2xl border border-border bg-glow p-4 space-y-3">
+          <div key={i} className="rounded-2xl border border-border bg-card p-4 space-y-3">
             <div className="flex items-start justify-between">
               <Skeleton className="w-10 h-10 rounded-xl" />
               <Skeleton className="w-12 h-5 rounded-full" />
@@ -46,10 +43,7 @@ function FileList({ documents, loading, onDelete, onUploadClick }) {
   }
 
   return (
-    <motion.div
-      layout
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-    >
+    <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <AnimatePresence>
         {documents.map((doc) => (
           <FileCard key={doc.id} doc={doc} onDelete={onDelete} />

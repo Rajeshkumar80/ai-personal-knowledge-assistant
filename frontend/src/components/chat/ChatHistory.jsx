@@ -3,16 +3,12 @@ import { useChat } from "../../context/ChatContext";
 import { truncate, timeAgo } from "../../utils/format";
 import { Skeleton } from "../common/Loader";
 
-/**
- * Sidebar panel listing past chat history entries.
- */
 function ChatHistory() {
   const { history, historyLoading, clearAllHistory } = useChat();
 
   return (
     <aside className="w-64 shrink-0 border-r border-border bg-surface flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+      <div className="flex items-center justify-between px-4 py-3.5 border-b border-border">
         <div className="flex items-center gap-2">
           <Clock size={13} className="text-fg-faint" />
           <span className="text-xs font-semibold text-fg-dim uppercase tracking-wider">History</span>
@@ -28,8 +24,6 @@ function ChatHistory() {
           </button>
         )}
       </div>
-
-      {/* List */}
       <div className="flex-1 overflow-y-auto py-2 space-y-0.5 px-2">
         {historyLoading ? (
           <div className="px-2 py-3 space-y-3">

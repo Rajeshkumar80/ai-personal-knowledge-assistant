@@ -1,0 +1,39 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - button "New session" [ref=e7] [cursor=pointer]
+          - button "Close sidebar" [ref=e10] [cursor=pointer]
+        - button "New session" [ref=e11] [cursor=pointer]
+      - button "Sign in" [ref=e15] [cursor=pointer]
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - button "Log In" [ref=e22] [cursor=pointer]
+        - button "Sign Up" [ref=e23] [cursor=pointer]
+      - generic [ref=e25]:
+        - generic [ref=e27]:
+          - heading [level=1] [ref=e28]:
+            - img "eve" [ref=e29]
+          - generic [ref=e30]:
+            - generic [ref=e31]: Message eve
+            - textbox "Message eve" [active] [ref=e32]:
+              - /placeholder: Ask anything...
+            - generic [ref=e33]:
+              - button "Connections" [ref=e36] [cursor=pointer]
+              - button "Send message" [disabled] [ref=e42]
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - text: Build your own chat agent with
+            - link "eve" [ref=e45] [cursor=pointer]:
+              - /url: https://vercel.com/eve
+            - text: ":"
+          - generic [ref=e46]:
+            - link "GitHub" [ref=e47] [cursor=pointer]:
+              - /url: https://github.com/vercel-labs/eve-chat-template
+            - text: ","
+          - link "Deploy" [ref=e49] [cursor=pointer]:
+            - /url: https://vercel.com/new/clone?project-name=eve-chat-template&repository-name=eve-chat-template&repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Feve-chat-template%2Ftree%2Fmain&env=BETTER_AUTH_SECRET%2CNEXT_PUBLIC_VERCEL_APP_CLIENT_ID%2CVERCEL_APP_CLIENT_SECRET&envDescription=Neon+provisions+DATABASE_URL.+Upstash+Redis+provisions+rate-limit+storage.+Add+Better+Auth+secret+and+Sign+in+with+Vercel+credentials.+After+deploy%2C+run+production+migrations+from+the+setup+guide.&envLink=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Feve-chat-template%2Fblob%2Fmain%2Fdocs%2Fsetup-and-deploy.md&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22neon%22%2C%22integrationSlug%22%3A%22neon%22%7D%2C%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22upstash-kv%22%2C%22integrationSlug%22%3A%22upstash%22%7D%5D
+          - button "Copy setup prompt" [ref=e50] [cursor=pointer]:
+            - generic [ref=e54]: Copy Prompt
+  - alert [ref=e55]

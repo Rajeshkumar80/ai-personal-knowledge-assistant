@@ -1,7 +1,7 @@
 import { cn } from "../../utils/cn";
 
 export function Spinner({ size = "md", className }) {
-  const sizes = { xs: "w-3 h-3", sm: "w-4 h-4", md: "w-6 h-6", lg: "w-8 h-8", xl: "w-12 h-12" };
+  const sizes = { xs: "w-3 h-3", sm: "w-4 h-4", md: "w-5 h-5", lg: "w-7 h-7", xl: "w-10 h-10" };
   return (
     <span
       className={cn(
@@ -15,7 +15,7 @@ export function Spinner({ size = "md", className }) {
 
 export function Skeleton({ className }) {
   return (
-    <div className={cn("skeleton rounded-lg", className)} />
+    <div className={cn("skeleton rounded-xl", className)} />
   );
 }
 

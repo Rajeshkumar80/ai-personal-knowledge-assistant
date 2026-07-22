@@ -8,7 +8,7 @@ function SourceCard({ sourceFile, pageNumber, className }) {
   return (
     <div
       className={cn(
-        "mt-3 flex items-start gap-2.5 rounded-lg border border-border bg-glow px-3 py-2.5",
+        "flex items-start gap-2.5 rounded-xl border border-border bg-glow px-3 py-2.5",
         className
       )}
     >

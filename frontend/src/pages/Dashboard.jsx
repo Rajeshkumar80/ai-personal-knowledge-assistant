@@ -7,6 +7,15 @@ import QuickActions from "../components/dashboard/QuickActions";
 import RecentActivity from "../components/dashboard/RecentActivity";
 import { getStats } from "../api/documentApi";
 
+const stagger = {
+  animate: { transition: { staggerChildren: 0.05, delayChildren: 0.08 } },
+};
+
+const fadeUp = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } },
+};
+
 function Dashboard() {
   const [stats, setStats] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
@@ -24,34 +33,19 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <h1 className="text-xl font-bold text-fg">
-            {greeting}
-          </h1>
+      <motion.div variants={stagger} initial="initial" animate="animate" className="space-y-6">
+        <motion.div variants={fadeUp}>
+          <h1 className="text-xl font-semibold text-fg tracking-tight">{greeting}</h1>
           <p className="text-sm text-fg-dim mt-1">
             Here's an overview of your AI knowledge workspace.
           </p>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.06 }}
-          className="grid grid-cols-2 xl:grid-cols-4 gap-3"
-        >
+        <motion.div variants={fadeUp} className="grid grid-cols-2 xl:grid-cols-4 gap-4">
           <StatsCard
             title="Documents"
             value={stats?.totalDocuments ?? "—"}
             icon={FileText}
-            color="default"
             loading={statsLoading}
             trend="Total uploaded"
           />
@@ -65,9 +59,7 @@ function Dashboard() {
           />
           <StatsCard
             title="Vector Chunks"
-            value={stats?.totalChunks
-              ? Number(stats.totalChunks).toLocaleString()
-              : "—"}
+            value={stats?.totalChunks ? Number(stats.totalChunks).toLocaleString() : "—"}
             icon={Database}
             color="blue"
             loading={statsLoading}
@@ -77,31 +69,19 @@ function Dashboard() {
             title="Storage Used"
             value={stats?.totalStorage ?? "—"}
             icon={HardDrive}
-            color="default"
             loading={statsLoading}
             trend="Uploaded content"
           />
         </motion.div>
 
-        {/* Quick Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.12 }}
-        >
+        <motion.div variants={fadeUp}>
           <QuickActions />
         </motion.div>
 
-        {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, delay: 0.18 }}
-        >
+        <motion.div variants={fadeUp}>
           <RecentActivity />
         </motion.div>
-
-      </div>
+      </motion.div>
     </DashboardLayout>
   );
 }

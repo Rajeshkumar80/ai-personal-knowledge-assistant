@@ -21,16 +21,10 @@ function Documents() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto space-y-5">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-start justify-between gap-4 flex-wrap"
-        >
+      <div className="space-y-6">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-xl font-bold text-fg flex items-center gap-2">
+            <h1 className="text-xl font-semibold text-fg tracking-tight flex items-center gap-2">
               <FolderOpen size={18} />
               Documents
             </h1>
@@ -38,56 +32,30 @@ function Documents() {
               {documents.length} document{documents.length !== 1 ? "s" : ""} in your knowledge base
             </p>
           </div>
-
           <div className="flex items-center gap-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              icon={RefreshCw}
-              onClick={fetchDocuments}
-              loading={loading}
-            >
+            <Button variant="secondary" size="sm" icon={RefreshCw} onClick={fetchDocuments} loading={loading}>
               Refresh
             </Button>
-            <Button
-              size="sm"
-              icon={Upload}
-              onClick={() => setUploadOpen(true)}
-            >
+            <Button size="sm" icon={Upload} onClick={() => setUploadOpen(true)}>
               Upload
             </Button>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-        >
-          <Input
-            icon={Search}
-            placeholder="Search documents by name…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="max-w-sm"
-          />
-        </motion.div>
+        <Input
+          icon={Search}
+          placeholder="Search documents by name…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm"
+        />
 
-        {/* File grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <FileList
-            documents={filtered}
-            loading={loading}
-            onDelete={remove}
-            onUploadClick={() => setUploadOpen(true)}
-          />
-        </motion.div>
-
+        <FileList
+          documents={filtered}
+          loading={loading}
+          onDelete={remove}
+          onUploadClick={() => setUploadOpen(true)}
+        />
       </div>
 
       <UploadModal open={uploadOpen} onClose={() => setUploadOpen(false)} />

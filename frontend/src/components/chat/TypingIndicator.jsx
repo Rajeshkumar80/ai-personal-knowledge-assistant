@@ -15,11 +15,10 @@ function TypingIndicator() {
       transition={{ duration: 0.2 }}
       className="flex items-end gap-3 max-w-2xl"
     >
-      <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center shrink-0 mb-1">
-        <Brain size={13} className="text-base" />
+      <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center shrink-0 mb-1">
+        <Brain size={13} className="text-white" />
       </div>
-
-      <div className="rounded-2xl rounded-bl-sm bg-glow border border-border px-4 py-3">
+      <div className="rounded-2xl rounded-bl-sm bg-card border border-border px-4 py-3">
         <div className="flex items-center gap-1.5">
           {[0, 1, 2].map((i) => (
             <motion.div
